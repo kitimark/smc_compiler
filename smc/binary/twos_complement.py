@@ -1,11 +1,11 @@
 from bitstring import Bits, ByteStore, CreationError
 
 class TwosComplement(Bits):
-  def __init__(self, auto=None, bits=None, **kwargs):
+  def __init__(self, auto=None, bits=32, **kwargs):
     if not isinstance(self._datastore, ByteStore):
       self._ensureinmemory()
       
-  def __new__(cls, auto=None, bits=None, **kwargs):
+  def __new__(cls, auto=None, bits=32, **kwargs):
     """
       Scope of **kwargs with keys:
       bin -- binary string representation, e.g. '0b001010'.
@@ -25,6 +25,8 @@ class TwosComplement(Bits):
   @classmethod
   def _initialise_object(cls, auto, length, **kwargs):
     try :
+      if isinstance(auto, TwosComplement):
+        return auto
       if isinstance(auto, int):
         return Bits.__new__(cls, length=length, int=auto)
       if isinstance(auto, str):
@@ -46,5 +48,35 @@ class TwosComplement(Bits):
       self.keys.index(k)
     except ValueError:
       raise CreationError(f"Cannot use {k} with this initialiser")
+
+  def __add__(self, tc):
+    """
+      Plus operate with twos complement
+
+      tc -- the twos complement to append
+
+    """    
+    tc = TwosComplement(tc)
+    bits = self.len if self.len > tc.len else tc.len 
+    result = self.int + tc.int
+    return TwosComplement(result, bits)
+
+  def __radd__(self, tc):
+    return self.__add__(tc)
+
+  def __sub__(self, tc):
+    """
+      Minus operate with twos complement
+
+      tc -- the twos complement to append
+    """
+    tc = TwosComplement(tc)._negative()
+    return self.__add__(tc)
+
+  def __rsub__(self, tc):
+    return self.__sub__(tc)._negative()
+
+  def _negative(self):
+    return ~self + 1
 
   keys = ['bin', 'hex', 'oct', 'int']
