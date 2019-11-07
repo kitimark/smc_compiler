@@ -44,3 +44,15 @@ class Parser(object):
     node = Register(self.current_token)
     self._eat(TokenType.INTERGER)
     return node
+
+  def field(self):
+    """
+    field: register
+         | label
+    """
+    if self.current_token.type is TokenType.INTERGER:
+      node = self.register()
+    else:
+      node = self.label()
+
+    return node
