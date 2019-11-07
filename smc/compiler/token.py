@@ -1,8 +1,10 @@
 from enum import Enum
 
-def scope_tt_list(start_index, end_index):
+def scope_tt_list(start_token, end_token):
   tt_list = list(TokenType)
-  scope_tt_list = [token_type for token_type in tt_list[start_index: end_index -1]]
+  start_index = tt_list.index(start_token)
+  end_index = tt_list.index(end_token)
+  scope_tt_list = [token_type for token_type in tt_list[start_index: end_index + 1]]
   return scope_tt_list
 
 class TokenType(Enum):
