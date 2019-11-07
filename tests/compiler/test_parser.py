@@ -27,3 +27,12 @@ class TestParser(unittest.TestCase):
     with self.assertRaises(ParserError):
       parser = self._init_parser('add') 
       parser.label()
+
+  def test_register(self):
+    parser = self._init_parser('2')
+    actual = parser.register()
+    self.assertEqual(actual.token.type, TokenType.INTERGER)
+
+    with self.assertRaises(ParserError):
+      parser = self._init_parser('add') 
+      parser.register()

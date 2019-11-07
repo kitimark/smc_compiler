@@ -1,7 +1,8 @@
 from .error import ParserError, ErrorCode
 from .token import TokenType
 from .abstract_syntax_tree import (
-  Label
+  Label,
+  Register
 )
 
 class Parser(object):
@@ -34,4 +35,12 @@ class Parser(object):
     """
     node = Label(self.current_token)
     self._eat(TokenType.WORD)
+    return node
+
+  def register(self):
+    """
+    register: INTEGER
+    """
+    node = Register(self.current_token)
+    self._eat(TokenType.INTERGER)
     return node

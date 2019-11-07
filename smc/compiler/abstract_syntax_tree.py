@@ -11,3 +11,9 @@ class Label(AST):
   def __init__(self, token):
     self.token = token
     self.value = token.value
+
+class Register(AST):
+  """Register node is constructed out of INTEGER token"""
+  def __init__(self, token):
+    self.token = token
+    self.value = token.value
