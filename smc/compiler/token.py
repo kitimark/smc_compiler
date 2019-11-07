@@ -13,12 +13,12 @@ class TokenType(Enum):
   FILL     = '.fill'  
   # misc
   INTERGER = 'INTERGER'
-  LABEL    = 'LABEL'
+  WORD     = 'WORD'
   EOL      = 'EOL' # End of line
   EOF      = 'EOF' # End of file
 
 class Token(object):
-  def __init__(self, type, value, line, column):
+  def __init__(self, type, value, line=None, column=None):
     self.type = type
     self.value = value
     self.line = line
