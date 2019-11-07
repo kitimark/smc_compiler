@@ -78,28 +78,25 @@ class Parser(object):
     return node
 
   def instuction(self):
+    opcode_node = self.opcode()
     if self.current_token.type in TokenType.R_TYPE():
-      opcode_node = self.opcode()
       field0_node = self.register()
       field1_node = self.register()
       field2_node = self.register()
       return RType(opcode_node, field0_node, field1_node, field2_node)
 
     if self.current_token.type in TokenType.I_TYPE():
-      opcode_node = self.opcode()
       field0_node = self.register()
       field1_node = self.register()
       field2_node = self.field()
       return IType(opcode_node, field0_node, field1_node, field2_node)
 
     if self.current_token.type in TokenType.J_TYPE():
-      opcode_node = self.opcode()
       field0_node = self.register()
       field1_node = self.register()
       return JType(opcode_node, field0_node, field1_node)
 
     if self.current_token.type in TokenType.O_TYPE():
-      opcode_node = self.opcode()
       return OType(opcode_node)
 
     if self.current_token.type in TokenType.FILL():
