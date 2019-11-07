@@ -1,5 +1,10 @@
 from enum import Enum
 
+def scope_tt_list(start_index, end_index):
+  tt_list = list(TokenType)
+  scope_tt_list = [token_type for token_type in tt_list[start_index: end_index -1]]
+  return scope_tt_list
+
 class TokenType(Enum):
   # block of reserved words
   ## R-Type
@@ -18,21 +23,35 @@ class TokenType(Enum):
   FILL     = '.fill'  
 
   # misc
-  INITIAL  = 'INITIAL'
   INTERGER = 'INTERGER'
   WORD     = 'WORD'
   EOL      = 'EOL' # End of line
   EOF      = 'EOF' # End of file
 
   @staticmethod
+  def R_TYPE():
+    return scope_tt_list(TokenType.ADD, TokenType.NAND)
+
+  @staticmethod
+  def I_TYPE():
+    return scope_tt_list(TokenType.LW, TokenType.BEQ)
+
+  @staticmethod
+  def J_TYPE():
+    return [TokenType.JALR]
+
+  @staticmethod
+  def O_TYPE():
+    return scope_tt_list(TokenType.HALT, TokenType.NOOP)
+
+  @staticmethod
+  def SPCIAL_TYPE():
+    return [TokenType.FILL]
+  
+  @staticmethod
   def MNEMONIC_LISTS():
     # mnemonic is same reserved keyword
-    tt_list = list(TokenType)
-    start_index = tt_list.index(TokenType.ADD)
-    end_index = tt_list.index(TokenType.FILL)
-    mnemonic_lists = [token_type for token_type in tt_list[start_index: end_index -1]]
-
-    return mnemonic_lists
+    return scope_tt_list(TokenType.ADD, TokenType.FILL)
 
 class Token(object):
   def __init__(self, type, value, line=None, column=None):
