@@ -12,6 +12,7 @@ class TokenType(Enum):
   NOOP     = 'noop'
   FILL     = '.fill'  
   # misc
+  INITIAL  = 'INITIAL'
   INTERGER = 'INTERGER'
   WORD     = 'WORD'
   EOL      = 'EOL' # End of line

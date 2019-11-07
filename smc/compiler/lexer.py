@@ -1,14 +1,5 @@
 from .token import Token, TokenType
-
-class Error(Exception):
-  def __init__(self, error_code=None, token=None, message=None):
-    self.error_code = error_code
-    self.token = token
-    self.message = f'{self.__class__.__name__}: {message}'
-    pass
-
-class LexerError(Error):
-  pass
+from .error import LexerError
 
 class Lexer(object):
   def __init__(self, text):
