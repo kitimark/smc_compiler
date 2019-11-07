@@ -88,6 +88,9 @@ class Lexer(object):
     Lexical analyzer
     """
     while self.current_char is not None:
+      if self.current_char == '\n':
+        return self._new_line()
+
       if self.current_char.isspace():
         self._skip_whitespace()
         continue
@@ -97,9 +100,6 @@ class Lexer(object):
 
       if self.current_char.isdigit():
         return self._number()
-
-      if self.current_char == '\n':
-        return self._new_line()
 
       self._error()
 
