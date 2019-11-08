@@ -163,3 +163,18 @@ class TestParser(unittest.TestCase):
     with self.assertRaises(ParserError):
       parser = self._init_parser('.fill add')
       parser.statement()
+
+  def test_statement_list(self):
+    code = """\
+    add   2 3 4
+    beq   1 2 test
+    halt
+    """
+    parser = self._init_parser(code)
+    result = parser.statement_list()
+    records = (
+      (result[0].__class__, RType),
+      (result[1].__class__, IType),
+      (result[2].__class__, OType),
+    )
+    self.assertEquals(records)

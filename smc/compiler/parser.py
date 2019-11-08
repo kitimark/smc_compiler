@@ -145,4 +145,13 @@ class Parser(object):
     if self.current_token.type is not TokenType.EOF:
       self._eat(TokenType.EOL)
     return inst_node
-  
+
+  def statement_list(self):
+    """
+    statement_list: statement+
+    """
+    statements = []
+    while self.current_token.type in TokenType.MNEMONIC_LISTS():
+      statements.append(self.statement())
+
+    return statements
