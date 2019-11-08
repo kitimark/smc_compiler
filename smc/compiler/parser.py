@@ -77,31 +77,50 @@ class Parser(object):
     self._eat(TokenType.MNEMONIC_LISTS())
     return node
 
-  def instuction(self):
+  def r_type(self):
     opcode_node = self.opcode()
+    field0_node = self.register()
+    field1_node = self.register()
+    field2_node = self.register()
+    return RType(opcode_node, field0_node, field1_node, field2_node)
+
+  def i_type(self):
+    opcode_node = self.opcode()
+    field0_node = self.register()
+    field1_node = self.register()
+    field2_node = self.field()
+    return IType(opcode_node, field0_node, field1_node, field2_node)
+
+  def j_type(self):
+    opcode_node = self.opcode()
+    field0_node = self.register()
+    field1_node = self.register()
+    return JType(opcode_node, field0_node, field1_node)
+
+  def o_type(self):
+    opcode_node = self.opcode()
+    return OType(opcode_node)
+
+  def fill_type(self):
+    opcode_node = self.opcode()
+    field_node = self.field()
+    return FillType(opcode_node, field_node)
+
+  def instruction(self):
     if self.current_token.type in TokenType.R_TYPE():
-      field0_node = self.register()
-      field1_node = self.register()
-      field2_node = self.register()
-      return RType(opcode_node, field0_node, field1_node, field2_node)
+      return self.r_type()
 
     if self.current_token.type in TokenType.I_TYPE():
-      field0_node = self.register()
-      field1_node = self.register()
-      field2_node = self.field()
-      return IType(opcode_node, field0_node, field1_node, field2_node)
+      return self.i_type()
 
     if self.current_token.type in TokenType.J_TYPE():
-      field0_node = self.register()
-      field1_node = self.register()
-      return JType(opcode_node, field0_node, field1_node)
+      return self.j_type()
 
     if self.current_token.type in TokenType.O_TYPE():
-      return OType(opcode_node)
+      return self.o_type()
 
     if self.current_token.type in TokenType.FILL():
-      field_node = self.field()
-      return FillType(field_node)
+      return self.fill_type()
   
     self._error(
       error_code=ErrorCode.UNEXPECTED_TOKEN,
