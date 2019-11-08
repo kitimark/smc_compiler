@@ -54,6 +54,6 @@ class OType(AST):
     self.opcode = opcode
 
 class FillType(AST):
-  def __init__(self, opcode, field):
+  def __init__(self, opcode, field0):
     self.opcode = opcode
-    self.field = field
+    self.field0 = field0

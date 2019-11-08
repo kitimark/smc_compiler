@@ -26,9 +26,13 @@ class Parser(object):
       message=f'{error_code} -> {token}'
     )
 
-  def _eat(self, token_type):
+  def _eat(self, token_type=None):
     # token type can be single, list or tuple
-    if self.current_token.type == token_type or self.current_token.type in token_type:
+    if (token_type is None or
+      self.current_token.type == token_type 
+      or type(token_type) in (list, tuple)
+      and self.current_token.type in token_type
+    ):
       self.current_token = self._get_next_token()
     else:
       self._error(
@@ -119,10 +123,26 @@ class Parser(object):
     if self.current_token.type in TokenType.O_TYPE():
       return self.o_type()
 
-    if self.current_token.type in TokenType.FILL():
+    if self.current_token.type is TokenType.FILL:
       return self.fill_type()
   
     self._error(
       error_code=ErrorCode.UNEXPECTED_TOKEN,
       token=self.current_token
     )
+
+  def _skip_comment(self):
+    while self.current_token.type not in (TokenType.EOL, TokenType.EOF):
+      self._eat()
+
+  def statement(self):
+    """
+    statement: instuction EOF \n
+    it will be skip comment each line
+    """
+    inst_node = self.instruction()
+    self._skip_comment()
+    if self.current_token.type is not TokenType.EOF:
+      self._eat(TokenType.EOL)
+    return inst_node
+  
