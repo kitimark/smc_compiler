@@ -196,3 +196,13 @@ class Parser(object):
         methods.append(self.method())
 
     return Program(initial_node, methods)
+
+  def parse(self):
+    node = self.program()
+    if self.current_token.type is not TokenType.EOF:
+      self._error(
+        error_code=ErrorCode.UNEXPECTED_TOKEN,
+        token=self.current_token
+      )
+    
+    return node

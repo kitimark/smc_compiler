@@ -297,3 +297,27 @@ class TestParser(unittest.TestCase):
       (result.methods, None)
     )
     self.assertEquals(records)
+
+  def test_parse(self):
+    code = """
+          add  3 2 1
+          beq  2 2 2
+
+    main  add  3 2 2 
+          jalr 3 2
+    """
+    parser = self._init_parser(code)
+    result = parser.parse()
+    records = (
+      (result.initial.__class__, Initial),
+      (type(result.methods), list)
+    )
+    self.assertEquals(records)
+
+    parser = self._init_parser(' ')
+    result = parser.parse()
+    records = (
+      (result.initial, None),
+      (result.methods, None)
+    )
+    self.assertEquals(records)
