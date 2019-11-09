@@ -50,7 +50,7 @@ class TestParser(unittest.TestCase):
     parser = self._init_parser('2')
     result = parser.register()
     records = (
-      (result.token.type, TokenType.INTERGER),
+      (result.token.type, TokenType.INT),
       (result.value, 2)
     )
     self.assertEquals(records)
@@ -62,7 +62,7 @@ class TestParser(unittest.TestCase):
   def test_field(self):
     parser = self._init_parser('2')
     actual = parser.field()
-    self.assertEqual(actual.token.type, TokenType.INTERGER)
+    self.assertEqual(actual.token.type, TokenType.INT)
 
     parser = self._init_parser('test')
     actual = parser.field()

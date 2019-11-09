@@ -61,7 +61,7 @@ class Parser(object):
     register: INTEGER
     """
     node = Register(self.current_token)
-    self._eat(TokenType.INTERGER)
+    self._eat(TokenType.INT)
     return node
 
   def offset(self):
@@ -69,7 +69,7 @@ class Parser(object):
     offset: INTEGER
     """
     node = Offset(self.current_token)
-    self._eat(TokenType.INTERGER)
+    self._eat(TokenType.INT)
     return node
 
   def field(self):
@@ -77,7 +77,7 @@ class Parser(object):
     field: register
          | label
     """
-    if self.current_token.type is TokenType.INTERGER:
+    if self.current_token.type is TokenType.INT:
       node = self.offset()
     else:
       node = self.label()

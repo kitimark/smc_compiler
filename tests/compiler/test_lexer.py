@@ -5,7 +5,7 @@ from smc.compiler import Lexer
 class TestLexer(unittest.TestCase):
   def test_tokens(self):
     records = (
-      ('1234', TokenType.INTERGER, 1234),
+      ('1234', TokenType.INT, 1234),
       ('add', TokenType.ADD, 'add'),
       ('.fill', TokenType.FILL, '.fill'),
       ('mark', TokenType.WORD, 'mark')

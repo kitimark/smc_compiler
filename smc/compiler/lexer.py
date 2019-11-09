@@ -65,7 +65,7 @@ class Lexer(object):
       value += self.current_char
       self._advance()
 
-    token.type = TokenType.INTERGER 
+    token.type = TokenType.INT 
     token.value = int(value)
 
     return token

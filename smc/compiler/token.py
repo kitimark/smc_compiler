@@ -25,7 +25,7 @@ class TokenType(Enum):
   FILL     = '.fill'  
 
   # misc
-  INTERGER = 'INTERGER'
+  INT      = 'INTERGER'
   WORD     = 'WORD'
   EOL      = 'EOL' # End of line
   EOF      = 'EOF' # End of file
