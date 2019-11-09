@@ -4,5 +4,5 @@ from smc.binary import Binary
 
 class BinaryTest(unittest.TestCase):
   def test_init(self):
-    actual = Binary(5, 32)
-    assert actual.__str__() == '00000000000000000000000000000101'
+    actual = Binary(auto=5, bits=32)
+    assert actual.bin == '00000000000000000000000000000101'
