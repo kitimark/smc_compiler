@@ -70,6 +70,16 @@ class Lexer(object):
 
     return token
 
+  def _special_chareacter(self):
+    token = Token(
+      type=TokenType.SPC, 
+      value=self.current_char, 
+      line=self.line, 
+      column=self.column
+    )
+    self._advance()
+    return token
+
   def _new_line(self):
     token = Token(type=TokenType.EOL, value=None, line=self.line, column=self.column)
     self._advance()
@@ -97,7 +107,18 @@ class Lexer(object):
       if self.current_char.isdigit():
         return self._number()
 
-      self._error()
+      try:
+        token_type = TokenType(self.current_char)
+        self._advance()
+      except ValueError:
+        return self._special_chareacter()
+      else: 
+        return Token(
+          type=token_type,
+          value=token_type.value,
+          line=self.line,
+          column=self.column
+        )
 
     # End of file
     return Token(type=TokenType.EOF, value=None)
