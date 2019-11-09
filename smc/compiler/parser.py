@@ -8,7 +8,8 @@ from .abstract_syntax_tree import (
   IType,
   JType,
   OType,
-  FillType
+  FillType,
+  Method
 )
 
 class Parser(object):
@@ -164,3 +165,11 @@ class Parser(object):
       raise ParserError(error_code=ErrorCode.EMPTY_STATEMENT_LIST)
 
     return statements
+
+  def method(self):
+    """
+    method: label statement_list
+    """
+    label_node = self.label() 
+    statements_node = self.statement_list()
+    return Method(label_node, statements_node)

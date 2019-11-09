@@ -57,3 +57,8 @@ class FillType(AST):
   def __init__(self, opcode, field0):
     self.opcode = opcode
     self.field0 = field0
+
+class Method(AST):
+  def __init__(self, label, statements):
+    self.label = label
+    self.statements = statements

@@ -215,3 +215,23 @@ class TestParser(unittest.TestCase):
     with self.assertRaises(ParserError):
       parser = self._init_parser(' ')
       result = parser.statement_list()
+
+  def test_method(self):
+    code = """
+      start add   1 2 3      comment test
+            beq   5 5 start
+
+            halt
+    """
+    parser = self._init_parser(code)
+    result = parser.method()
+    records = (
+      (result.label.__class__, Label),
+      (result.label.value, 'start'),
+      (result.statements.__class__, list)
+    )
+    self.assertEquals(records)
+    
+    with self.assertRaises(ParserError):
+      parser = self._init_parser('add 2 3 4')
+      parser.method()
