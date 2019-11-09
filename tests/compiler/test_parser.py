@@ -62,11 +62,11 @@ class TestParser(unittest.TestCase):
   def test_field(self):
     parser = self._init_parser('2')
     actual = parser.field()
-    self.assertEqual(actual.token.type, TokenType.INT)
+    self.assertEqual(actual.__class__, Offset)
 
     parser = self._init_parser('test')
     actual = parser.field()
-    self.assertEqual(actual.token.type, TokenType.WORD)
+    self.assertEqual(actual.__class__, Label)
 
     with self.assertRaises(ParserError):
       parser = self._init_parser('add') 
