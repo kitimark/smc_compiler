@@ -14,10 +14,15 @@ from .abstract_syntax_tree import (
 class Parser(object):
   def __init__(self, lexer):
     self.lexer = lexer
-    self.current_token = self._get_next_token()
+    self._skip_empty_line()
 
   def _get_next_token(self):
     return self.lexer.get_next_token()
+
+  def _skip_empty_line(self):
+    self.current_token = self._get_next_token()
+    while(self.current_token.type is TokenType.EOL):
+      self.current_token = self._get_next_token()
 
   def _error(self, error_code, token):
     raise ParserError(
@@ -143,7 +148,7 @@ class Parser(object):
     inst_node = self.instruction()
     self._skip_comment()
     if self.current_token.type is not TokenType.EOF:
-      self._eat(TokenType.EOL)
+      self._skip_empty_line()
     return inst_node
 
   def statement_list(self):
