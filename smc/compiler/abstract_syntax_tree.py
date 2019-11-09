@@ -62,3 +62,7 @@ class Method(AST):
   def __init__(self, label, statements):
     self.label = label
     self.statements = statements
+
+class Initial(AST):
+  def __init__(self, statements):
+    self.statements = statements

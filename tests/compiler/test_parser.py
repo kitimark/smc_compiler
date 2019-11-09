@@ -15,7 +15,8 @@ from smc.compiler.abstract_syntax_tree import (
   IType,
   JType,
   OType,
-  FillType
+  FillType,
+  Initial
 )
 
 class TestParser(unittest.TestCase):
@@ -235,3 +236,24 @@ class TestParser(unittest.TestCase):
     with self.assertRaises(ParserError):
       parser = self._init_parser('add 2 3 4')
       parser.method()
+
+  def test_initial(self):
+    code = """
+    add   1 2 3
+    jalr  5 4
+
+    halt
+    """
+    parser = self._init_parser(code)
+    actual = parser.initial()
+    self.assertEqual(type(actual), Initial)
+
+    with self.assertRaises(ParserError):
+      code = """
+      main add   1 2 3
+           jalr  5 4
+
+           halt
+      """
+      parser = self._init_parser(code)
+      parser.initial()

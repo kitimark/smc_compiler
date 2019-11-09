@@ -9,7 +9,8 @@ from .abstract_syntax_tree import (
   JType,
   OType,
   FillType,
-  Method
+  Method,
+  Initial
 )
 
 class Parser(object):
@@ -173,3 +174,9 @@ class Parser(object):
     label_node = self.label() 
     statements_node = self.statement_list()
     return Method(label_node, statements_node)
+
+  def initial(self):
+    """
+    initial: statement_list
+    """
+    return Initial(self.statement_list())
