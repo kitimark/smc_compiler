@@ -147,7 +147,7 @@ class Parser(object):
     """
     inst_node = self.instruction()
     self._skip_comment()
-    if self.current_token.type is not TokenType.EOF:
+    if self.current_token.type is TokenType.EOL:
       self._skip_empty_line()
     return inst_node
 
