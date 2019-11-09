@@ -10,7 +10,8 @@ from .abstract_syntax_tree import (
   OType,
   FillType,
   Method,
-  Initial
+  Initial,
+  Program
 )
 
 class Parser(object):
@@ -180,3 +181,18 @@ class Parser(object):
     initial: statement_list
     """
     return Initial(self.statement_list())
+
+  def program(self):
+    """
+    program: initial? method*
+    """
+    initial_node = None
+    if self.current_token.type in TokenType.MNEMONIC_LISTS():
+      initial_node = self.initial()
+
+    methods = []
+    if self.current_token.type is TokenType.WORD:
+      while self.current_token.type is TokenType.WORD:
+        methods.append(self.method())
+
+    return Program(initial_node, methods)

@@ -66,3 +66,11 @@ class Method(AST):
 class Initial(AST):
   def __init__(self, statements):
     self.statements = statements
+
+class Program(AST):
+  def __init__(self, initial, methods):
+    self.initial = initial
+    if methods:
+      self.methods = methods
+    else:
+      self.methods = None

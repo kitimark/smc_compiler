@@ -257,3 +257,43 @@ class TestParser(unittest.TestCase):
       """
       parser = self._init_parser(code)
       parser.initial()
+
+  def test_program(self):
+    code = """
+          add  3 2 1
+          beq  2 2 2
+
+    main  add  3 2 2 
+          jalr 3 2
+    """
+    parser = self._init_parser(code)
+    result = parser.program()
+    records = (
+      (result.initial.__class__, Initial),
+      (type(result.methods), list)
+    )
+    self.assertEquals(records)
+
+    code = """
+    main  add  3 2 2 
+          jalr 3 2
+    """
+    parser = self._init_parser(code)
+    result = parser.program()
+    records = (
+      (result.initial, None),
+      (type(result.methods), list)
+    )
+    self.assertEquals(records)
+
+    code = """
+    add  3 2 2 
+    jalr 3 2
+    """
+    parser = self._init_parser(code)
+    result = parser.program()
+    records = (
+      (result.initial.__class__, Initial),
+      (result.methods, None)
+    )
+    self.assertEquals(records)
