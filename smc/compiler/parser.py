@@ -159,4 +159,8 @@ class Parser(object):
     while self.current_token.type in TokenType.MNEMONIC_LISTS():
       statements.append(self.statement())
 
+    # throw exception when statement lists is empty
+    if not statements:
+      raise ParserError(error_code=ErrorCode.EMPTY_STATEMENT_LIST)
+
     return statements

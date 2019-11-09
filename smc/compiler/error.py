@@ -15,3 +15,4 @@ class ParserError(Error):
 
 class ErrorCode(Enum):
   UNEXPECTED_TOKEN = 'Unexpected token'  
+  EMPTY_STATEMENT_LIST = 'Statement list is empty'

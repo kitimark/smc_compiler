@@ -211,3 +211,7 @@ class TestParser(unittest.TestCase):
       (result[2].__class__, OType),
     )
     self.assertEquals(records)
+
+    with self.assertRaises(ParserError):
+      parser = self._init_parser(' ')
+      result = parser.statement_list()
