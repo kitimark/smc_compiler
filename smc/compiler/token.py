@@ -25,8 +25,11 @@ class TokenType(Enum):
   FILL     = '.fill'  
 
   # misc
+  PLUS     = '+'
+  MINUS    = '-'
   INT      = 'INTERGER'
   WORD     = 'WORD'
+  SPC      = 'SPECIAL_CHAR'
   EOL      = 'END_OF_LINE'
   EOF      = 'END_OF_FILE'
 

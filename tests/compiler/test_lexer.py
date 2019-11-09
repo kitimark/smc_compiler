@@ -8,7 +8,10 @@ class TestLexer(unittest.TestCase):
       ('1234', TokenType.INT, 1234),
       ('add', TokenType.ADD, 'add'),
       ('.fill', TokenType.FILL, '.fill'),
-      ('mark', TokenType.WORD, 'mark')
+      ('mark', TokenType.WORD, 'mark'),
+      ('(', TokenType.SPC, '('),
+      ('+', TokenType.PLUS, '+'),
+      ('-', TokenType.MINUS, '-')
     )
 
     for text, token_type, token_value in records:
