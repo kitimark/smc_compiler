@@ -27,8 +27,8 @@ class TokenType(Enum):
   # misc
   INT      = 'INTERGER'
   WORD     = 'WORD'
-  EOL      = 'EOL' # End of line
-  EOF      = 'EOF' # End of file
+  EOL      = 'END_OF_LINE'
+  EOF      = 'END_OF_FILE'
 
   @staticmethod
   def R_TYPE():
