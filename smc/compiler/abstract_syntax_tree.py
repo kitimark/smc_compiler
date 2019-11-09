@@ -19,7 +19,16 @@ class Register(AST):
     self.value = token.value
 
 class Offset(AST):
-  """Offset node is constructed out of INTEGER token"""
+  def __init__(self, unary, integer):
+    self.unary = unary
+    self.integer = integer
+
+class Unary(AST):
+  def __init__(self, token):
+    self.token = token
+    self.value = token.value
+
+class Number(AST):
   def __init__(self, token):
     self.token = token
     self.value = token.value

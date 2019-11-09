@@ -4,6 +4,8 @@ from .abstract_syntax_tree import (
   Label,
   Register,
   Offset,
+  Unary,
+  Number,
   RType,
   IType,
   JType,
@@ -64,20 +66,33 @@ class Parser(object):
     self._eat(TokenType.INT)
     return node
 
+  def unary(self):
+    node = None
+    if self.current_token.type in (TokenType.PLUS, TokenType.MINUS):
+      node = Unary(self.current_token)
+      self._eat()
+    return node
+
+  def number(self):
+    node = Number(self.current_token)
+    self._eat(TokenType.INT)
+    return node
+
   def offset(self):
     """
-    offset: INTEGER
+    offset: (PLUS | MINUS)? INTEGER
     """
-    node = Offset(self.current_token)
-    self._eat(TokenType.INT)
+    unary_node = self.unary()
+    number_node = self.number()
+    node = Offset(unary_node, number_node)
     return node
 
   def field(self):
     """
-    field: register
+    field: offset
          | label
     """
-    if self.current_token.type is TokenType.INT:
+    if self.current_token.type in (TokenType.INT, TokenType.PLUS, TokenType.MINUS):
       node = self.offset()
     else:
       node = self.label()
