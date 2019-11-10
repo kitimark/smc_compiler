@@ -38,39 +38,47 @@ class Opcode(AST):
     self.token = token
     self.value = token.value
 
-class RType(AST):
-  def __init__(self, opcode, field0, field1, field2):
+class Instruction(AST):
+  def __init__(self, address, opcode):
+    self.address = address
     self.opcode = opcode
+
+class RType(Instruction):
+  def __init__(self, address, opcode, field0, field1, field2):
+    super().__init__(address, opcode)
     self.field0 = field0
     self.field1 = field1
     self.field2 = field2
 
-class IType(AST):
-  def __init__(self, opcode, field0, field1, field2):
-    self.opcode = opcode
+class IType(Instruction):
+  def __init__(self, address, opcode, field0, field1, field2):
+    super().__init__(address, opcode)
     self.field0 = field0
     self.field1 = field1
     self.field2 = field2
 
-class JType(AST):
-  def __init__(self, opcode, field0, field1):
-    self.opcode = opcode
+class JType(Instruction):
+  def __init__(self, address, opcode, field0, field1):
+    super().__init__(address, opcode)
     self.field0 = field0
     self.field1 = field1
 
-class OType(AST):
-  def __init__(self, opcode):
-    self.opcode = opcode
+class OType(Instruction):
+  def __init__(self, address, opcode):
+    super().__init__(address, opcode)
 
-class FillType(AST):
-  def __init__(self, opcode, field0):
-    self.opcode = opcode
+class FillType(Instruction):
+  def __init__(self, address, opcode, field0):
+    super().__init__(address, opcode)
     self.field0 = field0
 
 class Method(AST):
   def __init__(self, label, statements):
     self.label = label
     self.statements = statements
+
+  def address(self):
+    return self.statements[0].address
 
 class Initial(AST):
   def __init__(self, statements):

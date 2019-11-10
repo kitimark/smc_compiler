@@ -19,6 +19,7 @@ from .abstract_syntax_tree import (
 class Parser(object):
   def __init__(self, lexer):
     self.lexer = lexer
+    self.address = 0
     self._skip_empty_line()
 
   def _get_next_token(self):
@@ -104,34 +105,44 @@ class Parser(object):
     self._eat(TokenType.MNEMONIC_LISTS())
     return node
 
+  def _address(self):
+    node = self.address
+    self.address += 1
+    return node
+
   def r_type(self):
+    address_node = self._address()
     opcode_node = self.opcode()
     field0_node = self.register()
     field1_node = self.register()
     field2_node = self.register()
-    return RType(opcode_node, field0_node, field1_node, field2_node)
+    return RType(address_node, opcode_node, field0_node, field1_node, field2_node)
 
   def i_type(self):
+    address_node = self._address()
     opcode_node = self.opcode()
     field0_node = self.register()
     field1_node = self.register()
     field2_node = self.field()
-    return IType(opcode_node, field0_node, field1_node, field2_node)
+    return IType(address_node, opcode_node, field0_node, field1_node, field2_node)
 
   def j_type(self):
+    address_node = self._address()
     opcode_node = self.opcode()
     field0_node = self.register()
     field1_node = self.register()
-    return JType(opcode_node, field0_node, field1_node)
+    return JType(address_node, opcode_node, field0_node, field1_node)
 
   def o_type(self):
+    address_node = self._address()
     opcode_node = self.opcode()
-    return OType(opcode_node)
+    return OType(address_node, opcode_node)
 
   def fill_type(self):
+    address_node = self._address()
     opcode_node = self.opcode()
     field_node = self.field()
-    return FillType(opcode_node, field_node)
+    return FillType(address_node, opcode_node, field_node)
 
   def instruction(self):
     if self.current_token.type in TokenType.R_TYPE():
