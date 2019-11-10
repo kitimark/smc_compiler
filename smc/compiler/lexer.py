@@ -1,5 +1,5 @@
 from .token import Token, TokenType
-from .error import LexerError
+from ..error import LexerError
 
 class Lexer(object):
   def __init__(self, text):

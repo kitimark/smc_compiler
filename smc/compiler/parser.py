@@ -1,4 +1,4 @@
-from .error import ParserError, ErrorCode
+from ..error import ParserError, ErrorCode
 from .token import TokenType
 from .abstract_syntax_tree import (
   Label,
