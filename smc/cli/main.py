@@ -1,4 +1,5 @@
 import argparse
+from ..compiler import Lexer, Parser, Interpreter
 
 def main():
   parser = argparse.ArgumentParser(description='SMC Simulator')
@@ -9,4 +10,7 @@ def main():
   text = open(args.inputfile, 'r').read()
   
   # TODO: compile and simulator input file
-  print(text)
+  lexer = Lexer(text)
+  parser = Parser(lexer)
+  tree = parser.parse() 
+  print(tree)
