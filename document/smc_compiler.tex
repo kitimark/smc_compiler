@@ -1,0 +1,70 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,snakes}
+
+\usepackage{listings}
+
+\lstset{
+  basicstyle=\itshape,
+  xleftmargin=3em,
+  literate={->}{$\rightarrow$}{2}
+           {α}{$\alpha$}{1}
+           {δ}{$\delta$}{1}
+}
+
+\title{SMC compiler}
+\author{sasirat019 }
+\date{November 2019}
+
+\begin{document}
+
+\maketitle
+
+\section{Compiler}
+\begin{center}
+\tikzstyle{block} = [rectangle, draw, 
+    text width=6em, text centered, rounded corners, minimum height=3em]
+\tikzstyle{line} = [draw, -latex']
+
+\begin{tikzpicture}[node distance = 2cm, auto]
+    % Place nodes
+    \node[draw=none,fill=none] (source) {Source code};
+    \node [block, below of=source] (init) {lexer};
+    \node [block, below of=init] (parser) {parser};
+    \node [block, below of=parser] (interpreter) {interpreter};
+    \node[draw=none,fill=none,below of=interpreter] (bi) {binary};
+    
+    % Draw edges
+    \path [line] (source) -- (init);
+    \path [line] (init) -- (parser);
+    \path [line] (parser) -- (interpreter);
+    \path [line] (interpreter) -- (bi);
+
+\end{tikzpicture}
+\end{center}
+
+\newpage
+\section{context free grammar}
+\begin{lstlisting}
+program         -> initial? method*
+initial         -> statement_list
+method          -> label statement_list
+statement_list  -> (statement)*
+statement       -> intruction comment?(<END OF LINE> | <END OF LINE>)
+                 | EMPTY
+EMPTY           -> <END OF LINE>
+instruction     -> R-TYPE reg reg reg
+                 | I-TYPE reg reg field
+                 | J-type reg reg 
+                 | O-TYPE 
+                 | .fill field
+reg             -> INTEGER
+field           -> offsetfield | label
+label           -> WORD
+comment         -> (WOED | INTEGER)*
+factor          -> (+,-)factor | INTEGER
+offsetfield     -> factor
+\end{lstlisting}
+
+\end{document}
