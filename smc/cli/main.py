@@ -1,5 +1,5 @@
 import argparse
-from ..compiler import Lexer, Parser, Interpreter
+from ..compiler import Lexer, Parser
 
 def main():
   parser = argparse.ArgumentParser(description='SMC Simulator')
