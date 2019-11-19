@@ -1,3 +1,11 @@
 __pycache__
 
 *.pyc
+
+# ignore latex compile files
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.pdf
+*.synctex.gz
