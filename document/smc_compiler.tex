@@ -1,7 +1,11 @@
 \documentclass{article}
-\usepackage[utf8]{inputenc}
+\usepackage[english,thai]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{fonts-tlwg}
 \usepackage{tikz}
 \usetikzlibrary{shapes,arrows,snakes}
+
+
 
 \usepackage{listings}
 
@@ -13,15 +17,19 @@
            {δ}{$\delta$}{1}
 }
 
-\title{SMC compiler}
-\author{sasirat019 }
-\date{November 2019}
 
 \begin{document}
 
-\maketitle
+\begin{titlepage}
+    \vspace*{\stretch{1.0}}
+    \begin{center}
+       \Large\textbf{SMC Complier}\\
+    \end{center}
+    \vspace*{\stretch{2.0}}
+ \end{titlepage}
 
 \section{Compiler}
+แนวคิดในการทำงานในส่วนของงานทั้งหมด
 \begin{center}
 \tikzstyle{block} = [rectangle, draw, 
     text width=6em, text centered, rounded corners, minimum height=3em]
@@ -37,12 +45,15 @@
     
     % Draw edges
     \path [line] (source) -- (init);
-    \path [line] (init) -- (parser);
-    \path [line] (parser) -- (interpreter);
+    \path [line] (init) -- node {token} (parser);
+    \path [line] (parser) -- node {parsed tree} (interpreter);
     \path [line] (interpreter) -- (bi);
 
 \end{tikzpicture}
 \end{center}
+lexer คือ ตัวที่ใช้ตัดคำ \\ 
+parser คือ ตัวที่เอาไว้ check ไวย์ยากรณ์
+
 
 \newpage
 \section{context free grammar}
@@ -66,5 +77,25 @@ comment         -> (WOED | INTEGER)*
 factor          -> (+,-)factor | INTEGER
 offsetfield     -> factor
 \end{lstlisting}
+
+\newpage
+\section{ตารางการทำงาน}
+
+\begin{tabular}{ |p{2cm}|p{6cm}|p{4cm}|  }
+\hline
+วัน/เดือน/ปี & รายละเอียดงาน &ผู้รับผิดชอบ \\
+\hline
+7/11/2562 & นัดคุยงาน วางแผน และแบ่งหน้าที่ในการทำงาน  & ทุกคน \\
+\hline
+11/11/2562 & นัดคุยรายละเอียดเกี่ยวกับ instruction  & วสุธันย์(600610773) \\ &&ศศิรัตน์(600610778) \\ &&เอกวิทย์(600610804) \\
+          & คุยรายละเอียดเกี่ยวกับการทำ simulator & อาภัสสรา(600610802)  \\ && อานันท์(600610801) \\
+\hline
+11/11/2562 - 16/11/2562 &ทำงานของเองที่ได้รับมอบหมาย & ทุกคน\\
+\hline
+18/11/2562 &ทำส่วนของ... ให้เสร็จและนัดหมายคุยเพื่อปรับปรุงแก้ไขงานส่วนที่ทำ & อาภัสสรา(600610802)        อานันท์(600610801)\\
+\hline
+\end{tabular}
+\subsection{หน้าที่การทำงานของสมาชิกในกลุ่ม}
+วสุธันย์ กิติจีราพัฒน์ (600610773) ..... 
 
 \end{document}
