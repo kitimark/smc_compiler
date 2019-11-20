@@ -12,6 +12,9 @@ class LabelTable(object):
       message=f'Label "{token.value}" has already define'
     ) 
 
+  def __getitem__(self, key):
+    return self.labels[key]
+
   def insert(self, token, address):
     if token.value in self.labels.keys():
       self._error(token)
@@ -27,6 +30,13 @@ class StatementList(object):
   def __setitem__(self, address, token):
     # TODO: add statement in statements list
     pass
+
+  def __iter__(self):
+    self.statements_iter = iter(self.statements)
+    return self.statements_iter
+
+  def __next__(self):
+    return next(self.statements_iter)
 
   def insert(self, statement):
     self.statements.append(statement)

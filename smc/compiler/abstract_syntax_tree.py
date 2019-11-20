@@ -40,28 +40,65 @@ class Command(AST):
 
 class Instruction(AST):
   def __init__(self, address, command):
-    self.address = address
-    self.command = command
+    self._address = address
+    self._command = command
+    self._field0 = None
+    self._field1 = None
+    self._field2 = None
+
+  @property
+  def address(self):
+    return self._address
+
+  @property
+  def command(self):
+    return self._command.value
+
+  @property
+  def field0(self):
+    return self._field0.value
+
+  @property
+  def field1(self):
+    return self._field1.value
+
+  @property
+  def field2(self):
+    return self._field2.value
+
+  def _offset(self, field):
+    field_method = getattr(self, '_field' + str(field))
+    if isinstance(field_method, Label):
+      return field_method.value
+    else:
+      op_token = field_method.unary
+      op = op_token.value if op_token is not None else '+'
+      int = field_method.integer.value
+      return int if op is '+' else -int
 
 class RType(Instruction):
   def __init__(self, address, command, field0, field1, field2):
     super().__init__(address, command)
-    self.field0 = field0
-    self.field1 = field1
-    self.field2 = field2
+    self._field0 = field0
+    self._field1 = field1
+    self._field2 = field2
 
 class IType(Instruction):
   def __init__(self, address, command, field0, field1, field2):
     super().__init__(address, command)
-    self.field0 = field0
-    self.field1 = field1
-    self.field2 = field2
+    self._field0 = field0
+    self._field1 = field1
+    self._field2 = field2
+
+  @property
+  def field2(self):
+    return self._offset(2)
 
 class JType(Instruction):
   def __init__(self, address, command, field0, field1):
     super().__init__(address, command)
-    self.field0 = field0
-    self.field1 = field1
+    self._field0 = field0
+    self._field1 = field1
 
 class OType(Instruction):
   def __init__(self, address, command):
@@ -70,7 +107,11 @@ class OType(Instruction):
 class FillType(Instruction):
   def __init__(self, address, command, field0):
     super().__init__(address, command)
-    self.field0 = field0
+    self._field0 = field0
+
+  @property
+  def field0(self):
+    return self._offset(0)
 
 class Method(AST):
   def __init__(self, label, statements):
