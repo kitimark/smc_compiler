@@ -74,7 +74,7 @@ class Instruction(object):
       self.opcode.bin + 
       self.field_0.bin + 
       self.field_1.bin + 
-      '00000000000' + 
+      '0000000000000' + 
       self.field_2.bin
     )
 
