@@ -13,7 +13,7 @@ from .abstract_syntax_tree import (
   FillType,
   Method,
   Initial,
-  Program
+  ParsedTree
 )
 
 class Parser(object):
@@ -221,7 +221,7 @@ class Parser(object):
       while self.current_token.type is TokenType.WORD:
         methods.append(self.method())
 
-    return Program(initial_node, methods)
+    return ParsedTree(initial_node, methods)
 
   def parse(self):
     node = self.program()

@@ -33,43 +33,43 @@ class Number(AST):
     self.token = token
     self.value = token.value
 
-class Opcode(AST):
+class Command(AST):
   def __init__(self, token):
     self.token = token
     self.value = token.value
 
 class Instruction(AST):
-  def __init__(self, address, opcode):
+  def __init__(self, address, command):
     self.address = address
-    self.opcode = opcode
+    self.command = command
 
 class RType(Instruction):
-  def __init__(self, address, opcode, field0, field1, field2):
-    super().__init__(address, opcode)
+  def __init__(self, address, command, field0, field1, field2):
+    super().__init__(address, command)
     self.field0 = field0
     self.field1 = field1
     self.field2 = field2
 
 class IType(Instruction):
-  def __init__(self, address, opcode, field0, field1, field2):
-    super().__init__(address, opcode)
+  def __init__(self, address, command, field0, field1, field2):
+    super().__init__(address, command)
     self.field0 = field0
     self.field1 = field1
     self.field2 = field2
 
 class JType(Instruction):
-  def __init__(self, address, opcode, field0, field1):
-    super().__init__(address, opcode)
+  def __init__(self, address, command, field0, field1):
+    super().__init__(address, command)
     self.field0 = field0
     self.field1 = field1
 
 class OType(Instruction):
-  def __init__(self, address, opcode):
-    super().__init__(address, opcode)
+  def __init__(self, address, command):
+    super().__init__(address, command)
 
 class FillType(Instruction):
-  def __init__(self, address, opcode, field0):
-    super().__init__(address, opcode)
+  def __init__(self, address, command, field0):
+    super().__init__(address, command)
     self.field0 = field0
 
 class Method(AST):
@@ -77,6 +77,7 @@ class Method(AST):
     self.label = label
     self.statements = statements
 
+  @property
   def address(self):
     return self.statements[0].address
 
@@ -84,7 +85,7 @@ class Initial(AST):
   def __init__(self, statements):
     self.statements = statements
 
-class Program(AST):
+class ParsedTree(AST):
   def __init__(self, initial, methods):
     self.initial = initial
     if methods:
