@@ -21,4 +21,7 @@ def main():
 
   simulator = Simulator(binary)
   logs = simulator.execute()
-  print(logs)
+  
+  file = open('result.txt', 'w')
+  file.write(logs)
+  file.close()
