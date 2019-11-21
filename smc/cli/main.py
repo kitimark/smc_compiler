@@ -1,5 +1,5 @@
 import argparse
-from ..compiler import Lexer, Parser
+from ..compiler import Lexer, Parser, SemanticAnalyzer, Interpreter
 
 def main():
   parser = argparse.ArgumentParser(description='SMC Simulator')
@@ -13,4 +13,9 @@ def main():
   lexer = Lexer(text)
   parser = Parser(lexer)
   tree = parser.parse() 
-  print(tree)
+  semanitic_analyzer = SemanticAnalyzer(tree)
+  program = semanitic_analyzer.analyze()
+  interpreter = Interpreter(program)
+  binary = interpreter.interpret()
+
+  print(binary)
