@@ -17,4 +17,7 @@ class Register:
     return self._register[reg_no]
 
   def set_register(self, reg_on, value):
-    self._register[reg_on] = TwosComplement(value, 32) if reg_on != 0 else TwosComplement(0, 32)
+    if reg_on is 0:
+      """ if set reg_on 0, do noting """
+      return
+    self._register[reg_on] = TwosComplement(value, 32)
