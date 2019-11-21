@@ -31,7 +31,7 @@ class Lexer(object):
       self.column += 1
 
   def _skip_whitespace(self):
-    while self.current_char is not None and self.current_char is ' ':
+    while self.current_char is not None and self.current_char in (' ', '\t'):
       self._advance()
 
   def _word(self):
@@ -97,7 +97,7 @@ class Lexer(object):
       if self.current_char == '\n':
         return self._new_line()
 
-      if self.current_char is ' ':
+      if self.current_char in (' ', '\t'):
         self._skip_whitespace()
         continue
 
