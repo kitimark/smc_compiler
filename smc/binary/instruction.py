@@ -4,8 +4,7 @@ from .twos_complement import TwosComplement
 from ..error import InstructionError, ErrorCode
 
 class Instruction(object):
-  def __init__(self, address, command, *argv):
-    self.address = address
+  def __init__(self, command, *argv):
     self.command = command
     try:
       self.visitor('_set_', command)(command, *argv)

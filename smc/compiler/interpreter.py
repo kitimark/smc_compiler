@@ -19,7 +19,6 @@ class Interpreter(object):
 
   def _init_RType(self, stmt):
     return Instruction(
-      stmt.address,
       stmt.command,
       stmt.field0,
       stmt.field1,
@@ -40,7 +39,6 @@ class Interpreter(object):
       field2 = stmt.field2
 
     return Instruction(
-      stmt.address,
       stmt.command,
       stmt.field0,
       stmt.field1,
@@ -49,7 +47,6 @@ class Interpreter(object):
 
   def _init_JType(self, stmt):
     return Instruction(
-      stmt.address,
       stmt.command,
       stmt.field0,
       stmt.field1
@@ -57,7 +54,6 @@ class Interpreter(object):
 
   def _init_OType(self, stmt):
     return Instruction(
-      stmt.address,
       stmt.command
     )
 
@@ -69,7 +65,6 @@ class Interpreter(object):
       field0 = stmt.field0
 
     return Instruction(
-      stmt.address,
       stmt.command,
       field0
     )
