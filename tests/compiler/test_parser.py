@@ -77,9 +77,9 @@ class TestParser(unittest.TestCase):
     result = parser.statement()
     records = (
       (result.__class__, RType),
-      (result.field0.__class__, Register),
-      (result.field1.__class__, Register),
-      (result.field2.__class__, Register),
+      (result._field0.__class__, Register),
+      (result._field1.__class__, Register),
+      (result._field2.__class__, Register),
     )
     return records
 
@@ -88,9 +88,9 @@ class TestParser(unittest.TestCase):
     result = parser.statement()
     records = (
       (result.__class__, IType),
-      (result.field0.__class__, Register),
-      (result.field1.__class__, Register),
-      (result.field2.__class__, (Offset, Label)),
+      (result._field0.__class__, Register),
+      (result._field1.__class__, Register),
+      (result._field2.__class__, (Offset, Label)),
     )
     return records
 
@@ -99,8 +99,8 @@ class TestParser(unittest.TestCase):
     result = parser.statement()
     records = (
       (result.__class__, JType),
-      (result.field0.__class__, Register),
-      (result.field1.__class__, Register)
+      (result._field0.__class__, Register),
+      (result._field1.__class__, Register)
     )
     return records
 
@@ -117,7 +117,7 @@ class TestParser(unittest.TestCase):
     result = parser.statement()
     records = (
       (result.__class__, FillType),
-      (result.field0.__class__, (Offset, Label))
+      (result._field0.__class__, (Offset, Label))
     )
     return records
 

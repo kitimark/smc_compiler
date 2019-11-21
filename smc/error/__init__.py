@@ -14,6 +14,15 @@ class LexerError(Error):
 class ParserError(Error):
   pass
 
+class InstructionError(Error):
+  pass
+
+class SemanticError(Error):
+  pass
+
 class ErrorCode(Enum):
+  UNEXPECTED_COMMAND = 'Unexpected command'
+  UNEXPECTED_ARGUMENTS = 'Unexpected arguments'
+  DUPLICATE_LABEL = 'Label has already been declared'
   UNEXPECTED_TOKEN = 'Unexpected token'  
   EMPTY_STATEMENT_LIST = 'Statement list is empty'
