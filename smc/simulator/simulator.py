@@ -35,6 +35,16 @@ class Simulator(object):
 
     self._next_inst()
 
+  def _execute_nand(self, inst):
+    rs_data = self._load_reg(inst.field_0)
+    rt_data = self._load_reg(inst.field_1)
+
+    data = ~(rs_data & rt_data)
+    self._write_reg(inst.field_2, data)
+
+    self._next_inst()
+
+
   def _execute_lw(self, inst):
     rs_data = self._load_reg(inst.field_0)
 
