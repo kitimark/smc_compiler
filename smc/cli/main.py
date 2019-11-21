@@ -1,5 +1,6 @@
 import argparse
 from ..compiler import Lexer, Parser, SemanticAnalyzer, Interpreter
+from ..simulator import Simulator
 
 def main():
   parser = argparse.ArgumentParser(description='SMC Simulator')
@@ -18,4 +19,5 @@ def main():
   interpreter = Interpreter(program)
   binary = interpreter.interpret()
 
-  print(binary)
+  simulator = Simulator(binary)
+  simulator.execute()
