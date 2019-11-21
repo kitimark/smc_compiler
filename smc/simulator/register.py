@@ -21,3 +21,10 @@ class Register:
       """ if set reg_on 0, do noting """
       return
     self._register[reg_on] = TwosComplement(value, 32)
+
+  def __iter__(self):
+    self.register_iter = iter(self._register)
+    return self.register_iter
+
+  def __next__(self):
+    return next(self.register_iter)

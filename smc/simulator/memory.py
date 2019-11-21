@@ -16,3 +16,10 @@ class Memory(object):
       space = address - len(self._memory) + 1
       self._allocate_memory(space)
     self._memory[address] = data
+
+  def __iter__(self):
+    self.memory_iter = iter(self._memory)
+    return self.memory_iter
+
+  def __next__(self):
+    return next(self.memory_iter)
