@@ -82,9 +82,21 @@ class Simulator(object):
   def _execute_halt(self, inst):
     self._end = True
 
+  def _init_memory_log(self):
+    # TODO: return intialize memory
+    return ''
+
+  def _simulation_logs(self):
+    # TODO: return mem and reg
+    return ''
+
   def execute(self):
-    # TODO: execute binary
+    logs = self._init_memory_log()
+
     while True:
       inst = self.memory.get_memory(self.pc, Instruction) 
       self._execute_binary(inst)
+      logs += self._simulation_logs()
       if self._end: break
+
+    return logs
