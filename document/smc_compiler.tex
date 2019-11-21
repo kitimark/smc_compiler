@@ -4,7 +4,8 @@
 \usepackage{fonts-tlwg}
 \usepackage{tikz}
 \usetikzlibrary{shapes,arrows,snakes}
-
+\usepackage{tabularx}
+\usepackage{multirow}
 
 
 \usepackage{listings}
@@ -67,7 +68,7 @@ statement       -> intruction comment?(<END OF LINE> | <END OF LINE>)
 EMPTY           -> <END OF LINE>
 instruction     -> R-TYPE reg reg reg
                  | I-TYPE reg reg field
-                 | J-type reg reg 
+                 | J-TYPE reg reg 
                  | O-TYPE 
                  | .fill field
 reg             -> INTEGER
@@ -77,6 +78,26 @@ comment         -> (WOED | INTEGER)*
 factor          -> (+,-)factor | INTEGER
 offsetfield     -> factor
 \end{lstlisting}
+
+\section{ตาราง opcode}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+
+\begin{tabular}{C{1cm}|C{1cm}|C{1cm}|C{1cm}|C{1cm}|C{1cm}|C{1cm}|C{1cm}|C{1cm}}
+\multicolumn{1}{L{0.7cm}}{} & \multicolumn{1}{l}{31} &\multicolumn{1}{r}{25}& \multicolumn{1}{l}{24 \hfil   22} &\multicolumn{1}{l}{21  \hfil19}& \multicolumn{1}{l}{18 \hfil \hfil 16} &\multicolumn{1}{l}{15}& \multicolumn{1}{r}{3}& \multicolumn{1}{l}{2 \hfil \hfil 0}\\
+\hline
+R-type & \multicolumn{2}{C{3cm}|}{x} & opcode & rs & rt & \multicolumn{2}{C{3cm}|}{x} & rd\\
+\hline
+I-type & \multicolumn{2}{C{3cm}|}{x} & opcode & rs & rt & \multicolumn{2}{R{3cm}}{offsetfield} \\
+\hline
+J-type & \multicolumn{2}{C{3cm}|}{x} & opcode & rs & rt & \multicolumn{2}{C{3cm}}{x} \\
+\hline
+O-type & \multicolumn{2}{C{3cm}|}{x} & opcode & \multicolumn{4}{R{3cm}}{x}\\
+\hline
+
+\end{tabular}
 
 \newpage
 \section{ตารางการทำงาน}
