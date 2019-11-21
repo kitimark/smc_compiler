@@ -8,6 +8,7 @@ class Simulator(object):
     self.register = Register()
     self.memory = Memory(statements)
     self._end = False
+    self.count = 0
 
   def _execute_binary(self, inst):
     method_name = '_execute_' + inst.command
@@ -80,23 +81,49 @@ class Simulator(object):
     self._next_inst()
 
   def _execute_halt(self, inst):
-    self._end = True
+     self._end = True
+     self._next_inst()
 
   def _init_memory_log(self):
     # TODO: return intialize memory
-    return ''
+    list = ''
+    for i,val in enumerate(self.memory):
+      list += f'memory[{str(i)}]={str(val)}\n'
+    return list
 
   def _simulation_logs(self):
     # TODO: return mem and reg
-    return ''
+    list = f'\n@@@\nstate:\n\t '
+    list += f'pc {self.pc}\n'
+
+    list += f'\tmemory:\n'
+    for i,val in enumerate(self.memory):
+      list += f'\t\tmem[ {str(i)} ] {str(val)}\n'
+
+    list += f'\tregisters:\n'
+    for j,val2 in enumerate(self.register):
+      list += f'\t\treg[ {str(j)} ] {str(val2.int)}\n'
+
+    list += f'end state\n'
+    return list
+
+  def _simulation_conclusion(self):
+    #TODO: return conclusion and final state
+    list = f'machine halted\ntotal of {self.count} instructions executed\nfinal state of machine:\n'
+
+    return list
 
   def execute(self):
     logs = self._init_memory_log()
 
     while True:
       inst = self.memory.get_memory(self.pc, Instruction) 
-      self._execute_binary(inst)
       logs += self._simulation_logs()
+      self._execute_binary(inst)
+      self.count += 1
       if self._end: break
 
+    logs += self._simulation_conclusion()
+    # self._end = False
+    logs += self._simulation_logs()
     return logs

@@ -20,4 +20,5 @@ def main():
   binary = interpreter.interpret()
 
   simulator = Simulator(binary)
-  simulator.execute()
+  logs = simulator.execute()
+  print(logs)
