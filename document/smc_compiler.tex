@@ -42,13 +42,15 @@
     \node[draw=none,fill=none] (source) {Source code};
     \node [block, below of=source] (init) {lexer};
     \node [block, below of=init] (parser) {parser};
-    \node [block, below of=parser] (interpreter) {interpreter};
+    \node [block, below of=parser] (semantic) {semantic analyze};
+    \node [block, below of=semantic] (interpreter) {interpreter};
     \node[draw=none,fill=none,below of=interpreter] (bi) {binary};
     
     % Draw edges
     \path [line] (source) -- (init);
     \path [line] (init) -- node {token} (parser);
-    \path [line] (parser) -- node {parsed tree} (interpreter);
+    \path [line] (parser) -- node {parsed tree} (semantic);
+    \path [line] (semantic) -- node {program} (interpreter);
     \path [line] (interpreter) -- (bi);
 
 \end{tikzpicture}
