@@ -1,13 +1,13 @@
 import unittest
 
-from smc.compiler import(
+from smc.assembler import(
   Parser, 
   ParserError, 
   Lexer, 
   TokenType
 )
 
-from smc.compiler.abstract_syntax_tree import (
+from smc.assembler.abstract_syntax_tree import (
   Label,
   Offset,
   Register,
