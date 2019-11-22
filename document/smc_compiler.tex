@@ -6,6 +6,7 @@
 \usetikzlibrary{shapes,arrows,snakes}
 \usepackage{tabularx}
 \usepackage{multirow}
+\usepackage[a4paper]{geometry}
 
 
 \usepackage{listings}
@@ -24,7 +25,7 @@
 \begin{titlepage}
     \vspace*{\stretch{1.0}}
     \begin{center}
-       \Large\textbf{SMC Complier}\\
+       \Large\textbf{Computer Architecture}\\
     \end{center}
     \vspace*{\stretch{2.0}}
  \end{titlepage}
@@ -58,6 +59,8 @@ parser คือ ตัวที่เอาไว้ check ไวย์ยา�
 
 \newpage
 \section{context free grammar}
+\paragraph{  }แนวคิดที่ได้จากการค้นคว้า ก็ได้แนวคิดของการทำ context free grammar โดยแนวคิดนี้จะเริ่มจากจุดใหญ่ๆก่อนแล้วค่อยย่อยมาเป็นจุดเล็กๆ ทำให้การทำงานง่ายขึ้น จาก context free grammar ก็ได้แนวคิดอีกเรื่องหนึี่งที่ต่อยอดมาจาก context free grammar ก็คือ abstact syntex tree คือเรื่องที่นำ context free grammar มาทำให้ดูง่ายขึ้นกว่าเดิม และจากการศึกษา ก็ได้นำมาเป็นแนวคิดในการเขียน code \par
+แนวคิดของ context free grammar คือ เริ่มต้นจาก Assembly หนึ่งไฟล์จะประกอบไปด้วย initial หรือ method โดย initial จะเริ่มเป็น statement\_list แต่ method จะมี label ขึ้นก่อนแล้วตามด้วย statement\_list โดยใน statememt\_list จะมี statememt ซึ่งเก็บ instruction กับ commemt ซึ่งจะมีวิธีการเขียนที่เป็นไปได้ดังด้านล่างนี้ โดย instruction ก็จะแบ่งไปตาม type ต่างๆ มีรูปแบบที่ต่างกันไป 
 \begin{lstlisting}
 program         -> initial? method*
 initial         -> statement_list
@@ -79,7 +82,10 @@ factor          -> (+,-)factor | INTEGER
 offsetfield     -> factor
 \end{lstlisting}
 
-\section{ตาราง opcode}
+
+
+\section{ตาราง Instruction}
+
 
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
 \newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
@@ -100,23 +106,138 @@ O-type & \multicolumn{2}{C{3cm}|}{x} & opcode & \multicolumn{4}{R{3cm}}{x}\\
 \end{tabular}
 
 \newpage
+\section{Simulator}
+%เขียนตรงนี้ได้เลย
+
+\newpage
+\section{Assembly}
+\subsection{Multiplication}
+\begin{lstlisting}
+        lw    0    2    mplier    $2 = 10383
+        lw    0    3    mcand     $3 = 32766
+        lw    0    4    pos1      $4 = 1
+        lw    0    5    pos1      $5 = 1
+        lw    0    6    pos16     $6 = 16
+loop    beq   5    6              end goto end program when $5==16
+        add   0    0    7         $7 = 0
+        nand  4    2    7         $4 nand $2 -> $7
+        nand  7    7    7         nand for check bit
+        beq   7    0              skip goto skip program when $7==0
+        add   3    1    1         $1 = $3 + $1
+skip    add   3    3    3         shift the multiplicand register left 1 bit
+        add   0    0    7         $7 = 0
+        lw    0    7    pos1      $7 = 1
+        add   5    7    5         $5 = $5 +1
+        add   4    4    4         shift the multiplier register left 1 bit
+        beq   0    0              loop go back to the begining of the loop
+end     halt                      end of program
+mcand   .fill 32766
+mplier  .fill 10383
+pos16   .fill 16
+pos1    .fill 1
+\end{lstlisting}
+
+\subsection{Combination}
+\begin{lstlisting}
+       lw    0   1   n      $1 == n 
+       lw    0   2   r      $2 == r
+       lw    0   6   func   prepare to call combi. $2=combi 
+start  jalr  6   7          call combi: $7=return address
+       lw    0   1   n      $1 == n
+       lw    0   2   r      $2 == r
+       halt
+combi  beq   0   2   exit   go to exit when $2 == 0
+       beq   1   2   exit   go to exit when $2 == $1
+       lw    0   4   pos1   $4 == 1
+       sw    5   7   stack  save return address on stack
+       add   5   4   5      increment stack pointer
+       sw    5   1   stack  save $1 on stack
+       add   5   4   5      increment stack pointer
+       sw    5   2   stack  save $2 on stack
+       add   5   4   5      increment stack pointer
+       lw    0   4   neg1   $4 == -1
+       add   1   4   1      $1 = $4+$1
+       jalr  6   7          call combi: $7=return address
+       lw    0   4   neg1   $4 == -1
+       add   5   4   5      decrement stack pointer
+       lw    5   2   stack  recover $2
+       add   5   4   5      decrement stack pointer
+       lw    5   1   stack  recover $1
+       add   1   4   1      $1 = $4+$1
+       add   2   4   2      $2 = $4+$2
+       jalr  6   7          call addr $7
+       lw    0   4   neg1   $4 == -1
+       add   5   4   5      decrement stack pointer
+       lw    5   7   stack  recover return address on stack
+       jalr  7   0          call addr $7
+exit   lw    0   4   pos1   return 1
+       add   3   4   3      result combi
+       jalr  7   0          call addr $7
+func   .fill combi
+pos1   .fill 1
+neg1   .fill -1
+n      .fill 7
+r      .fill 3
+stack  .fill 0
+    
+\end{lstlisting}
+
+\subsection{Fibonacci}
+\begin{lstlisting}
+       lw    0    1    n        $1 == n     
+       lw    0    6    func     prepare to call fibo : $2=fibo 
+start  jalr  6    7    call     fibo: $7=return address
+       halt
+fibo   beq   1    0    done     go to done when $1 == 0
+       lw    0    4    pos1     $4 == 1
+       beq   1    4    done     go to done when $1 == 1
+       sw    5    7    stack    save return address on stack
+       add   5    4    5        increment stack pointer
+       sw    5    1    stack    save $1 on stack
+       add   5    4    5        increment stack pointer
+       lw    0    4    neg1     $4 == -1
+       add   1    4    1        $1 = $4+$1
+       jalr  6    7             call fibo: $7=return address
+loop1  lw    0    4    neg1     $4 == -1
+       add   5    4    5        decrement stack pointer
+       lw    5    1    stack    recover $1
+       add   4    4    4        $4 == -2
+       add   1    4    1        $1 = $4+$1
+       jalr  6    7             call fibo: $7=return address
+loop2  lw    0    4    neg1     $4 == -1
+       add   5    4    5        decrement stack pointer
+       lw    5    7    stack    recover return address on stack
+       jalr  7    0             call addr $7
+done   add   0    1    2        $1 == $2
+       add   2    3    3        $3 = $3 + $2
+       jalr  7    0             call addr $7
+func   .fill fibo
+n      .fill 5
+pos1   .fill 1
+neg1   .fill -1
+stack  .fill 0   
+\end{lstlisting}
+
+\newpage
 \section{ตารางการทำงาน}
 
-\begin{tabular}{ |p{2cm}|p{6cm}|p{4cm}|  }
+\begin{tabular}{ |p{2cm}|p{6cm}|p{3cm}|p{2cm}|  }
 \hline
-วัน/เดือน/ปี & รายละเอียดงาน &ผู้รับผิดชอบ \\
+วัน/เดือน/ปี & รายละเอียดงาน &ผู้รับผิดชอบ & จำนวนชั่วโมง\\
 \hline
-7/11/2562 & นัดคุยงาน วางแผน และแบ่งหน้าที่ในการทำงาน  & ทุกคน \\
+7/11/2562 & นัดคุยงาน วางแผน และแบ่งหน้าที่ในการทำงาน  & ทุกคน & 2 \\
 \hline
 11/11/2562 & นัดคุยรายละเอียดเกี่ยวกับ instruction  & วสุธันย์(600610773) \\ &&ศศิรัตน์(600610778) \\ &&เอกวิทย์(600610804) \\
           & คุยรายละเอียดเกี่ยวกับการทำ simulator & อาภัสสรา(600610802)  \\ && อานันท์(600610801) \\
 \hline
 11/11/2562 - 16/11/2562 &ทำงานของเองที่ได้รับมอบหมาย & ทุกคน\\
 \hline
-18/11/2562 &ทำส่วนของ... ให้เสร็จและนัดหมายคุยเพื่อปรับปรุงแก้ไขงานส่วนที่ทำ & อาภัสสรา(600610802)        อานันท์(600610801)\\
+18/11/2562 &ทำส่วนของ Asembly ให้เสร็จและนัดหมายคุยเพื่อปรับปรุงแก้ไขงานส่วนที่ทำ & อาภัสสรา(600610802)        อานันท์(600610801)\\
 \hline
 \end{tabular}
 \subsection{หน้าที่การทำงานของสมาชิกในกลุ่ม}
 วสุธันย์ กิติจีราพัฒน์ (600610773) ..... 
+
+
 
 \end{document}
