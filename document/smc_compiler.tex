@@ -12,9 +12,11 @@
 
 \usepackage{listings}
 
-\lstset{
+% context free gramma template
+\lstdefinestyle{context-free-grammar}{
   basicstyle=\itshape,
-  xleftmargin=3em,
+  xleftmargin=2em,
+  basicstyle=\ttfamily,
   literate={->}{$\rightarrow$}{2}
            {α}{$\alpha$}{1}
            {δ}{$\delta$}{1}
@@ -88,7 +90,7 @@ lexer คือ ตัวที่ใช้ตัดคำ เพื่อนำ
 \section{context free grammar}
 \paragraph{  }แนวคิดที่ได้จากการค้นคว้า ก็ได้แนวคิดของการทำ context free grammar โดยแนวคิดนี้จะเริ่มจากจุดใหญ่ๆก่อนแล้วค่อยย่อยมาเป็นจุดเล็กๆ ทำให้การทำงานง่ายขึ้น จาก context free grammar ก็ได้แนวคิดอีกเรื่องหนึี่งที่ต่อยอดมาจาก context free grammar ก็คือ abstact syntex tree คือเรื่องที่นำ context free grammar มาทำให้ดูง่ายขึ้นกว่าเดิม และจากการศึกษา ก็ได้นำมาเป็นแนวคิดในการเขียน code \par
 แนวคิดของ context free grammar คือ เริ่มต้นจาก Assembly หนึ่งไฟล์จะประกอบไปด้วย initial หรือ method โดย initial จะเริ่มเป็น statement\_list แต่ method จะมี label ขึ้นก่อนแล้วตามด้วย statement\_list โดยใน statememt\_list จะมี statememt ซึ่งเก็บ instruction กับ commemt ซึ่งจะมีวิธีการเขียนที่เป็นไปได้ดังด้านล่างนี้ โดย instruction ก็จะแบ่งไปตาม type ต่างๆ มีรูปแบบที่ต่างกันไป 
-\begin{lstlisting}
+\begin{lstlisting}[style=context-free-grammar]
 program         -> initial? method*
 initial         -> statement_list
 method          -> label statement_list
