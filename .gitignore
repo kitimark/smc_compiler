@@ -1,5 +1,4 @@
 __pycache__
-
 *.pyc
 
 # ignore latex compile files
@@ -11,3 +10,5 @@ __pycache__
 *.synctex.gz
 *.dvi
 *.out
+
+.ropeproject

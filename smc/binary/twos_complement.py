@@ -1,4 +1,5 @@
 from bitstring import Bits, ByteStore, CreationError
+from .binary import Binary
 
 class TwosComplement(Bits):
   def __init__(self, auto=None, bits=32, **kwargs):
@@ -27,6 +28,8 @@ class TwosComplement(Bits):
     try :
       if isinstance(auto, TwosComplement):
         return auto
+      if isinstance(auto, Binary):
+        return Bits.__new__(cls, length=length, int=auto.int)
       if isinstance(auto, int):
         return Bits.__new__(cls, length=length, int=auto)
       if isinstance(auto, str):

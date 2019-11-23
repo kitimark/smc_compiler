@@ -1,0 +1,40 @@
+        lw      0   1   n	
+        lw      0   2   r	
+        lw      0   6   func
+start   jalr    6   7
+        lw      0   1   n
+        lw      0   2   r
+        halt
+combi   beq     0   2   exit
+        beq     1   2   exit
+        lw      0   4   pos1
+        sw      5   7   stack
+        add     5   4   5
+        sw      5   1   stack
+        add     5   4   5
+        sw      5   2   stack
+        add     5   4   5
+        lw      0   4   neg1
+        add     1   4   1
+        jalr    6   7
+        lw      0   4   neg1
+        add     5   4   5 
+        lw      5   2   stack
+        add     5   4   5
+        lw      5   1   stack
+        add     1   4   1
+        add     2   4   2
+        jalr    6   7
+        lw      0   4   neg1
+        add     5   4   5 
+        lw      5   7   stack
+        jalr    7   0
+exit   lw      0   4   pos1
+        add     3   4   3
+        jalr    7   0
+func   .fill   combi
+pos1    .fill   1
+neg1    .fill   -1
+n       .fill   7
+r       .fill   3
+stack   .fill   0

@@ -1,0 +1,32 @@
+	lw	0	1	n	
+	lw	0	6	func
+start	jalr	6	7
+	halt	
+fibo	beq	1	0	done
+	lw	0	4	pos1
+	beq	1	4	done
+	sw	5	7	stack
+	add	5	4	5
+	sw	5	1	stack
+	add	5	4	5
+	lw	0	4	neg1	
+	add	1	4	1
+	jalr	6	7
+loop1	lw	0	4	neg1
+	add	5	4	5	
+	lw	5	1	stack
+	add	4	4	4
+	add	1	4	1
+	jalr	6	7
+loop2	lw	0	4	neg1	
+	add	5	4	5
+	lw	5	7	stack
+	jalr	7	0
+done	add	0	1	2
+	add	2	3	3
+	jalr	7	0	
+func	.fill	fibo
+n	.fill	6
+pos1	.fill	1
+neg1	.fill	-1
+stack	.fill	0
