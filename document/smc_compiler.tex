@@ -311,7 +311,12 @@ offsetfield     -> factor
         \path [line] (memory) -- (init);   
         \path [line] (register) -- (init);   
     \end{tikzpicture}
-    \end{center}
+\end{center}
+\begin{flushleft}
+Simulator รับ binary จากส่วนก่อนหน้ามาเก็บไว้ใน memory และregister จะเก็บค่าของแต่ละคำสั่งเอาไว้
+ทั้งสามส่วนนี้จะทำงานพร้อมกัน โดย Simulator จะมีหน้าที่ทำตาม instruction และจะแสดงค่าของ memory และresisterในแต่ละ state
+หลังจากนั้นจะเก็บ Result ทั้งหมดไว้ในไฟล์ที่สร้างเอาไว้มาเพื่อเก็บผลลัพธ์ทั้งหมด
+\end{flushleft}
 
 \newpage
 \section{Assembly}
