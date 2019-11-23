@@ -1,6 +1,7 @@
 from enum import Enum
 
 def scope_tt_list(start_token, end_token):
+  #scope token start instruction and end instruction
   tt_list = list(TokenType)
   start_index = tt_list.index(start_token)
   end_index = tt_list.index(end_token)
@@ -70,6 +71,7 @@ class Token(object):
   
   @staticmethod
   def RESERVED_KEYWORDS():
+    #check token type 
     tt_list = list(TokenType)
     start_index = tt_list.index(TokenType.ADD)
     end_index = tt_list.index(TokenType.FILL)
