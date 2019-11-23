@@ -2,14 +2,10 @@ from .register import Register
 from .memory import Memory
 from ..binary import TwosComplement, Instruction
 
-
-"""
-รับbinary รับคำสั่งมาทำในแต่ละคำสั่ง และทำการรันแต่ละคำสั่งว่าต้องทำงานอย่างไรตามที่ได้กำหนดมา 
-และแสดงผลลัพธ์ของmemoryและregister ทุกการทำงาน1คำสั่งจนจบการทำงานครบทุกaddress 
-แล้วแสดงผลการสรุปของการทำงานทั้งหมด
-"""
-
 class Simulator(object):
+  """
+    Simulator of smc binary
+  """
   def __init__(self, statements):
     self.pc = 0
     self.register = Register()
@@ -26,14 +22,23 @@ class Simulator(object):
     self.pc += 1
 
   def _load_reg(self, field):
+    """
+    Load data in register
+    """
     reg = field.int    
     data = self.register.get_register(reg)
     return data
 
   def _write_reg(self, field, data):
+    """
+    Write data in register
+    """
     reg = field.int
     self.register.set_register(reg, data)
-
+  
+  """
+    Execute instruction
+  """
   def _execute_add(self, inst):
     rs_data = self._load_reg(inst.field_0)
     rt_data = self._load_reg(inst.field_1)
@@ -100,20 +105,25 @@ class Simulator(object):
   def _execute_halt(self, inst):
      self._end = True
      self._next_inst()
-
-
-  """ส่วนแสดงผลลัพธ์ในแต่ละ state"""
   
+  """
+    Generate logs
+  """
+
   def _init_memory_log(self): #ฟังก์ชันที่แสดงค่าเริ่มต้นของ Memory
-    # TODO: return intialize memory
+    """
+    Generate logs of intial memory
+    """
     list = ''
     for i,val in enumerate(self.memory):
       list += f'memory[{str(i)}]={str(val)}\n'
     return list
 
   def _simulation_logs(self): 
-    """ฟังก์ชันที่แสดงค่าของMemoryและRegisterของทุกการรันทุกคำสั่งจนจบทุกคำสั่ง 
-    โดยการดึงค่าออกมาจาก MemoryและRegister ของแต่ละ state ออกมาแสดงผล"""
+    """
+    Generate logs each state
+    show register state and memory state
+    """
     # TODO: return mem and reg
     list = f'\n@@@\nstate:\n\t '
     list += f'pc {self.pc}\n'
@@ -129,11 +139,10 @@ class Simulator(object):
     list += f'end state\n'
     return list
 
-  """ส่วนแสดงผลลัพธ์สรุปผลการทำงานของคำสั่งทั้งหมด 
-  และแสดงผลของ final state """
-
   def _simulation_conclusion(self):
-    #TODO: return conclusion and final state
+    """
+      Generate colclusion logs (how many execute instruction)
+    """
     list = f'machine halted\ntotal of {self.count} instructions executed\nfinal state of machine:\n'
 
     return list
@@ -149,5 +158,6 @@ class Simulator(object):
       if self._end: break
 
     logs += self._simulation_conclusion()
+    # Generate final state
     logs += self._simulation_logs()
     return logs
