@@ -12,14 +12,56 @@
 
 \usepackage{listings}
 
-\lstset{
+% context free gramma template
+\lstdefinestyle{context-free-grammar}{
   basicstyle=\itshape,
-  xleftmargin=3em,
+  xleftmargin=2em,
+  basicstyle=\ttfamily,
   literate={->}{$\rightarrow$}{2}
            {α}{$\alpha$}{1}
            {δ}{$\delta$}{1}
 }
 
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+ 
+% assembly template
+\lstdefinestyle{assembly}{
+    xleftmargin=3em,
+    backgroundcolor=\color{backcolour},   
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    % numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+% python template
+\lstdefinestyle{python}{
+    backgroundcolor=\color{backcolour},   commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
 
 \begin{document}
 
@@ -109,7 +151,7 @@ O-type & \multicolumn{2}{C{3cm}|}{x} & opcode & \multicolumn{4}{R{3cm}}{x}\\
 \section{context free grammar}
 \paragraph{  }แนวคิดที่ได้จากการค้นคว้า ก็ได้แนวคิดของการทำ context free grammar โดยแนวคิดนี้จะเริ่มจากจุดใหญ่ๆก่อนแล้วค่อยย่อยมาเป็นจุดเล็กๆ ทำให้การทำงานง่ายขึ้น จาก context free grammar ก็ได้แนวคิดอีกเรื่องหนึี่งที่ต่อยอดมาจาก context free grammar ก็คือ abstact syntex tree คือเรื่องที่นำ context free grammar มาทำให้ดูง่ายขึ้นกว่าเดิม และจากการศึกษา ก็ได้นำมาเป็นแนวคิดในการเขียน code \par
 แนวคิดของ context free grammar คือ เริ่มต้นจาก Assembly หนึ่งไฟล์จะประกอบไปด้วย initial หรือ method โดย initial จะเริ่มเป็น statement\_list แต่ method จะมี label ขึ้นก่อนแล้วตามด้วย statement\_list โดยใน statememt\_list จะมี statememt ซึ่งเก็บ instruction กับ commemt ซึ่งจะมีวิธีการเขียนที่เป็นไปได้ดังด้านล่างนี้ โดย instruction ก็จะแบ่งไปตาม type ต่างๆ มีรูปแบบที่ต่างกันไป 
-\begin{lstlisting}
+\begin{lstlisting}[style=context-free-grammar]
 program         -> initial? method*
 initial         -> statement_list
 method          -> label statement_list
@@ -201,7 +243,7 @@ offsetfield     -> factor
 \newpage
 \section{Assembly}
 \subsection{Multiplication}
-\begin{lstlisting}
+\begin{lstlisting}[style=assembly]
         lw    0    2    mplier    $2 = 10383
         lw    0    3    mcand     $3 = 32766
         lw    0    4    pos1      $4 = 1
@@ -227,7 +269,7 @@ pos1    .fill 1
 \end{lstlisting}
 
 \subsection{Combination}
-\begin{lstlisting}
+\begin{lstlisting}[style=assembly]
        lw    0   1   n      $1 == n 
        lw    0   2   r      $2 == r
        lw    0   6   func   prepare to call combi. $2=combi 
@@ -272,7 +314,7 @@ stack  .fill 0
 \end{lstlisting}
 
 \subsection{Fibonacci}
-\begin{lstlisting}
+\begin{lstlisting}[style=assembly]
        lw    0    1    n        $1 == n     
        lw    0    6    func     prepare to call fibo : $2=fibo 
 start  jalr  6    7    call     fibo: $7=return address
@@ -315,6 +357,13 @@ stack  .fill 0
 \vfill
 
 \newpage
+
+\section{Source Code}
+
+\newcommand{\main}{smc/cli/main.py}
+\paragraph{}\main
+\lstinputlisting[language=Python, style=python]{../\main}
+
 \section{ตารางการทำงาน}
 
 \begin{tabular}{ |p{2cm}|p{6cm}|p{3cm}|p{2cm}|  }
