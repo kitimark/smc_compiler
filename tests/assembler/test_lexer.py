@@ -1,6 +1,6 @@
 import unittest
-from smc.compiler import TokenType
-from smc.compiler import Lexer
+from smc.assembler import TokenType
+from smc.assembler import Lexer
 
 class TestLexer(unittest.TestCase):
   def test_tokens(self):
