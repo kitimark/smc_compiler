@@ -12,6 +12,13 @@
 
 \usepackage{listings}
 
+\geometry{
+a4paper,
+total={170mm,257mm},
+left=20mm,
+top=20mm,
+}
+
 % context free gramma template
 \lstdefinestyle{context-free-grammar}{
   basicstyle=\itshape,
@@ -371,6 +378,8 @@ mplier  .fill 10383
 pos16   .fill 16
 pos1    .fill 1
 \end{lstlisting}
+
+\newpage
 การทำงานของ Multiplication
 \begin{center}
     \tikzstyle{block} = [rectangle, draw, 
@@ -411,7 +420,7 @@ pos1    .fill 1
     \end{tikzpicture}
     \end{center}
 
-
+\newpage
 \subsection{Combination}
 \begin{lstlisting}[style=assembly]
        lw    0   1   n      $1 == n 
@@ -462,6 +471,7 @@ stack  .fill 0
 พอจบการทำงานแบบ combination(n-1,r ) ให้โหลดค่า n ,r   จาก stack กลับมา ที่ register 1 , register 2 ตาม ลำดับ 
 กำหนดให้ n-1 และ r-1 แล้วเริ่มการทำงานแบบ combination(n-1,r-1) โปรแกรมก็จะทำงานจนกว่า สมการr == 0 หรือ r == nเป็นจริงแล้ว return result ออกมาใน register 3
 
+\newpage
 \subsection{Fibonacci}
 \begin{lstlisting}[style=assembly]
        lw    0    1    n        $1 == n     
@@ -583,11 +593,13 @@ stack  .fill 0
 \hline
 \end{tabular}
 \subsection{หน้าที่การทำงานของสมาชิกในกลุ่ม}
-วสุธันย์ กิติจีราพัฒน์ (600610773) ทำโค้ด Assembler , คิดการทำงาน , ทำรายงาน\\
-ศศิรัตน์ มณีเจียร (600610778) ทำ Assembler , คิดการทำงานของโปรแกรมทั้งหมด , ทำรายงาน\\
-อานันท์ บุญรอด (600610801) ทำ Assembly code , ทำรายงาน\\
-อาภัสรา เรืองเมือง (600610802) ทำส่วน simulator , ทำรายงาน\\
-เอกวิชญ์ ใจดี (600610804) ทำส่วน simulator , ทำรายงาน\\
+วสุธันย์ กิติจีราพัฒน์ (600610773) ทำโค้ด Assembler, คิดการทำงานของ Infrastructure, ทำรายงาน\\
+ศศิรัตน์ มณีเจียร (600610778) ทำ Assembler, คิดการทำงานของโปรแกรมทั้งหมด, ทำรายงาน\\
+อานันท์ บุญรอด (600610801) ทำ Assembly code, ทำรายงาน\\
+อาภัสรา เรืองเมือง (600610802) ทำส่วน Simulator, ทำรายงาน\\
+เอกวิชญ์ ใจดี (600610804) ทำส่วน Assembler, Simulator, ทำรายงาน\\
+
+\newpage
 \section{Reference}
 \begin{enumerate}
 \item\url{https://www.cs.rochester.edu/~nelson/courses/csc_173/grammars/cfg.html}
