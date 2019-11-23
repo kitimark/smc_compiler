@@ -1,5 +1,5 @@
 import argparse
-from ..compiler import Lexer, Parser, SemanticAnalyzer, Interpreter
+from ..assembler import Lexer, Parser, SemanticAnalyzer, Interpreter
 from ..simulator import Simulator
 
 def main():
