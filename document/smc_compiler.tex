@@ -1,9 +1,9 @@
-\documentclass{article}
+\documentclass[14pt]{article}
 \usepackage[english,thai]{babel}
 \usepackage[utf8x]{inputenc}
 \usepackage{fonts-tlwg}
 \usepackage{tikz}
-\usetikzlibrary{shapes,arrows,snakes}
+\usetikzlibrary{shapes,arrows,snakes,positioning,trees}
 \usepackage{tabularx}
 \usepackage{multirow}
 \usepackage[a4paper]{geometry}
@@ -26,12 +26,35 @@
     \vspace*{\stretch{1.0}}
     \begin{center}
        \Large\textbf{Computer Architecture}\\
+       \textbf{Project 1}\\
+       \vspace{2cm}
+       \itshapeวสุธันย์ กิติจีราพัฒน์ (600610773) \\ ศศิรัตน์ มณีเจียร (600610778) \\ 
+
     \end{center}
     \vspace*{\stretch{2.0}}
  \end{titlepage}
 
+ในการทำงานของโปรแกรมจะแบ่งเป็น 2 ส่วนหลักๆ ก็คือ Conpiler และ simulator 
+\begin{center}
+    \tikzstyle{block} = [rectangle, draw, 
+        text width=6em, text centered, rounded corners, minimum height=3em]
+    \tikzstyle{line} = [draw, -latex']
+    
+    \begin{tikzpicture}[node distance = 3cm, auto]
+        % Place nodes
+        \node[draw=none,fill=none] (file) {files};
+        \node [block, right of=file] (Compiler) {Compiler};
+        \node [block, right of=Compiler] (simulator) {simulator};
+        \node[draw=none,fill=none,right of=simulator] (result) {result};
+        
+        % Draw edges
+        \path [line] (file) -- (Compiler);
+        \path [line] (Compiler) --  (simulator);
+        \path [line] (simulator) --  (result);
+    \end{tikzpicture}
+    \end{center}
 \section{Compiler}
-แนวคิดในการทำงานในส่วนของงานทั้งหมด
+แนวคิดในการทำงานในส่วนของ Compiler
 \begin{center}
 \tikzstyle{block} = [rectangle, draw, 
     text width=6em, text centered, rounded corners, minimum height=3em]
@@ -55,8 +78,9 @@
 
 \end{tikzpicture}
 \end{center}
-lexer คือ ตัวที่ใช้ตัดคำ \\ 
-parser คือ ตัวที่เอาไว้ check ไวย์ยากรณ์
+\parเริ่มต้นจากนำไฟล์ source code มา
+lexer คือ ตัวที่ใช้ตัดคำ เพื่อนำ token ไปส่งให้ parser , parser คือ ตัวที่เอาไว้ check ไวย์ยากรณ์ ว่าในหนึ่งบรรทัด มีรูปแบบที่ถูกต้องหรือไม่ ต่อจากนั้น parser จะทำการสร้าง pared tree เพื่อส่งต่อ ไปให้ semantic analyze ซึ่ง semantic analyze ทำหน้าที่ในการเช็คข้อมูลในหนึ่งบรรทัดในเชิงความหมายของ instruction หรือ label เช่น ไม่ควรมี label ซ้ำกัน ต่อจากนั้น semantic analyze จะส่งข้อมูลที่ได้ส่งไปให้ interpreter เพื่อทำการแปลงจาก assembly เป็น binary
+
 
 
 \newpage
@@ -83,6 +107,7 @@ comment         -> (WOED | INTEGER)*
 factor          -> (+,-)factor | INTEGER
 offsetfield     -> factor
 \end{lstlisting}
+ซึ่งหลักการของ comtext free grammar จะนำไปแปลงเป็น AST ซึ่งอยู่ในขั้นตอนของ parser ที่จะส่ง parsed tree ไปให้ semantic analyze ไปทำงานต่อไป
 
 
 
@@ -110,6 +135,7 @@ O-type & \multicolumn{2}{C{3cm}|}{x} & opcode & \multicolumn{4}{R{3cm}}{x}\\
 \newpage
 \section{Simulator}
 %เขียนตรงนี้ได้เลย
+  
 
 \newpage
 \section{Assembly}
@@ -219,6 +245,13 @@ pos1   .fill 1
 neg1   .fill -1
 stack  .fill 0   
 \end{lstlisting}
+
+\newpage
+\vspace*{\fill}
+\noindent
+\makebox[\textwidth]{\Huge ภาคผนวก}
+
+\vfill
 
 \newpage
 \section{ตารางการทำงาน}
