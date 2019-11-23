@@ -120,9 +120,11 @@ class Lexer(object):
         return self._number()
 
       try:
+        # Try to gen token in token type
         token_type = TokenType(self.current_char)
         self._advance()
       except ValueError:
+        # Handling all chareacter
         return self._special_chareacter()
       else: 
         return Token(
