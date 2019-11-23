@@ -110,7 +110,7 @@ class Simulator(object):
     Generate logs
   """
 
-  def _init_memory_log(self): #ฟังก์ชันที่แสดงค่าเริ่มต้นของ Memory
+  def _init_memory_log(self):
     """
     Generate logs of intial memory
     """
