@@ -249,6 +249,8 @@ offsetfield     -> factor
         lw    0    4    pos1      $4 = 1
         lw    0    5    pos1      $5 = 1
         lw    0    6    pos16     $6 = 16
+        beq   0    2    end       goto end program when $2==0
+        beq   0    3    end       goto end program when $3==0
 loop    beq   5    6    end       goto end program when $5==16
         add   0    0    7         $7 = 0
         nand  4    2    7         $4 nand $2 -> $7
@@ -267,6 +269,42 @@ mplier  .fill 10383
 pos16   .fill 16
 pos1    .fill 1
 \end{lstlisting}
+การทำงานของ Multiplication
+\begin{center}
+    \tikzstyle{block} = [rectangle, draw, 
+        text width=12em, text centered, rounded corners, minimum height=3em]
+    \tikzstyle{dimond} = [diamond, draw, 
+    text width=4.5em, text badly centered, node distance=3cm, inner sep=0pt]
+    \tikzstyle{cloud} = [draw, ellipse, node distance=3cm,
+    minimum height=2em]
+    \tikzstyle{line} = [draw, -latex']
+    
+    \begin{tikzpicture}[node distance = 3cm, auto]
+        % Place nodes
+        \node [cloud] (start) {start};
+        \node [block, below of=start , node distance=2cm] (nand1) {Nand multiplier , 1};
+        \node [block, below of=nand1,node distance=2cm] (nand2) {Nand multiplier , multiplier};
+        \node [dimond, below of=nand2] (check) {check temp multiplier};
+        \node [block, below left of=check , node distance=4cm] (add) {add multiplicand to product and place the result in product register};
+        \node [block, below of=check, node distance=5cm] (shift) {shift the Multiplication register left 1 bit};
+        \node [block, below of=shift, node distance=2.5cm] (shift2) {shift the temp multiplier register left 1 bit};
+        \node [dimond, below of=shift2] (re) {15 repetition?};
+        \node [cloud, below of=re, node distance=2cm] (halt) {halt};
+        
+        % Draw edges
+        \path[line] (start) -- (nand1);
+        \path[line] (nand1) -- (nand2);
+        \path[line] (nand2) -- (check);
+        \path[line] (check) -| node [anchor=east] {temp Mplier=Mplier} (add);
+        \path[line] (check) -- node {temp mplier not equal mplier} (shift);
+        \path[line] (add) |-  (shift);
+        \path[line] (shift) -- (shift2);
+        \path[line] (shift2) -- (re);
+        \path[line] (re) -- (halt);
+    
+    \end{tikzpicture}
+    \end{center}
+
 
 \subsection{Combination}
 \begin{lstlisting}[style=assembly]
