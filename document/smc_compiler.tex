@@ -7,6 +7,7 @@
 \usepackage{tabularx}
 \usepackage{multirow}
 \usepackage[a4paper]{geometry}
+\usepackage{hyperref}
 
 
 \usepackage{listings}
@@ -33,7 +34,7 @@
     \end{center}
     \vspace*{\stretch{2.0}}
  \end{titlepage}
-
+\section{Infrastructure}
 ในการทำงานของโปรแกรมจะแบ่งเป็น 2 ส่วนหลักๆ ก็คือ Conpiler และ simulator 
 \begin{center}
     \tikzstyle{block} = [rectangle, draw, 
@@ -43,17 +44,17 @@
     \begin{tikzpicture}[node distance = 3cm, auto]
         % Place nodes
         \node[draw=none,fill=none] (file) {files};
-        \node [block, right of=file] (Compiler) {Compiler};
-        \node [block, right of=Compiler] (simulator) {simulator};
+        \node [block, right of=file] (assembler) {assembler};
+        \node [block, right of=assembler] (simulator) {simulator};
         \node[draw=none,fill=none,right of=simulator] (result) {result};
         
         % Draw edges
-        \path [line] (file) -- (Compiler);
-        \path [line] (Compiler) --  (simulator);
+        \path [line] (file) -- (assembler);
+        \path [line] (assembler) --  (simulator);
         \path [line] (simulator) --  (result);
     \end{tikzpicture}
     \end{center}
-\section{Compiler}
+\section{Assembler}
 แนวคิดในการทำงานในส่วนของ Compiler
 \begin{center}
 \tikzstyle{block} = [rectangle, draw, 
@@ -272,7 +273,29 @@ stack  .fill 0
 \end{tabular}
 \subsection{หน้าที่การทำงานของสมาชิกในกลุ่ม}
 วสุธันย์ กิติจีราพัฒน์ (600610773) ..... 
-
-
+\section{Reference}
+\begin{enumerate}
+\item\url{https://www.cs.rochester.edu/~nelson/courses/csc_173/grammars/cfg.html}
+\item\url{https://medium.com/basecs/leveling-up-ones-parsing-game-with-asts-d7a6fc2400ff}
+\item\url{http://www1.cs.columbia.edu/~sedwards/classes/2003/w4115f/ast.9up.pdf}
+\item\url{http://matt.might.net/articles/grammars-bnf-ebnf/}
+\item\url{https://ruslanspivak.com/lsbasi-part1/}
+\item\url{https://ruslanspivak.com/lsbasi-part2/}
+\item\url{https://ruslanspivak.com/lsbasi-part3/}
+\item\url{https://ruslanspivak.com/lsbasi-part4/}
+\item\url{https://ruslanspivak.com/lsbasi-part5/}
+\item\url{https://ruslanspivak.com/lsbasi-part6/}
+\item\url{https://ruslanspivak.com/lsbasi-part7/}
+\item\url{https://ruslanspivak.com/lsbasi-part8/}
+\item\url{https://ruslanspivak.com/lsbasi-part9/}
+\item\url{https://ruslanspivak.com/lsbasi-part10/}
+\item\url{https://ruslanspivak.com/lsbasi-part11/}
+\item\url{https://ruslanspivak.com/lsbasi-part12/}
+\item\url{https://ruslanspivak.com/lsbasi-part13/}
+\item\url{https://ruslanspivak.com/lsbasi-part14/}
+\item\url{https://ruslanspivak.com/lsbasi-part15/}
+\item\url{https://ruslanspivak.com/lsbasi-part16/}
+\item\url{https://ruslanspivak.com/lsbasi-part17/}
+\end{enumerate}
 
 \end{document}
