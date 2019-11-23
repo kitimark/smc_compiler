@@ -568,8 +568,344 @@ stack  .fill 0
 \file{smc/__init__.py}
 \file{smc/__main__.py}
 
-\section{ตารางการทำงาน}
+\newpage
+\section{ผลการทดลอง}
+\subsection{Multiplication}
+\begin{lstlisting}[style=assembly]
+@@@
+    state:
+    pc 17
+   memory:
+       mem[ 0 ] 8519699
+       mem[ 1 ] 8585234
+       mem[ 2 ] 8650773
+       mem[ 3 ] 8716309
+       mem[ 4 ] 8781844
+       mem[ 5 ] 19791883
+       mem[ 6 ] 7
+       mem[ 7 ] 6422535
+       mem[ 8 ] 8323079
+       mem[ 9 ] 20447233
+       mem[ 10 ] 1638401
+       mem[ 11 ] 1769475
+       mem[ 12 ] 7
+       mem[ 13 ] 8847381
+       mem[ 14 ] 3080197
+       mem[ 15 ] 2359300
+       mem[ 16 ] 16842740
+       mem[ 17 ] 25165824
+       mem[ 18 ] 32766
+       mem[ 19 ] 10383
+       mem[ 20 ] 16
+       mem[ 21 ] 1
+   registers:
+       reg[ 0 ] 0
+       reg[ 1 ] 340209378
+       reg[ 2 ] 10383
+       reg[ 3 ] 1073676288
+       reg[ 4 ] 32768
+       reg[ 5 ] 16
+       reg[ 6 ] 16
+       reg[ 7 ] 1
+end state
+machine halted
+total of 179 instructions executed
+final state of machine:
 
+@@@
+state:
+    pc 18
+   memory:
+       mem[ 0 ] 8519699
+       mem[ 1 ] 8585234
+       mem[ 2 ] 8650773
+       mem[ 3 ] 8716309
+       mem[ 4 ] 8781844
+       mem[ 5 ] 19791883
+       mem[ 6 ] 7
+       mem[ 7 ] 6422535
+       mem[ 8 ] 8323079
+       mem[ 9 ] 20447233
+       mem[ 10 ] 1638401
+       mem[ 11 ] 1769475
+       mem[ 12 ] 7
+       mem[ 13 ] 8847381
+       mem[ 14 ] 3080197
+       mem[ 15 ] 2359300
+       mem[ 16 ] 16842740
+       mem[ 17 ] 25165824
+       mem[ 18 ] 32766
+       mem[ 19 ] 10383
+       mem[ 20 ] 16
+       mem[ 21 ] 1
+   registers:
+       reg[ 0 ] 0
+       reg[ 1 ] 340209378
+       reg[ 2 ] 10383
+       reg[ 3 ] 1073676288
+       reg[ 4 ] 32768
+       reg[ 5 ] 16
+       reg[ 6 ] 16
+       reg[ 7 ] 1
+end state
+\end{lstlisting}
+\subsection{Combination}
+\begin{lstlisting}[style=assembly]
+@@@
+state:
+     pc 6
+    memory:
+        mem[ 0 ] 8454181
+        mem[ 1 ] 8519718
+        mem[ 2 ] 8781858
+        mem[ 3 ] 24576000
+        mem[ 4 ] 8454181
+        mem[ 5 ] 8519718
+        mem[ 6 ] 25165824
+        mem[ 7 ] 16908311
+        mem[ 8 ] 17432598
+        mem[ 9 ] 8650787
+        mem[ 10 ] 15663143
+        mem[ 11 ] 2883589
+        mem[ 12 ] 15269927
+        mem[ 13 ] 2883589
+        mem[ 14 ] 15335463
+        mem[ 15 ] 2883589
+        mem[ 16 ] 8650788
+        mem[ 17 ] 786433
+        mem[ 18 ] 24576000
+        mem[ 19 ] 8650788
+        mem[ 20 ] 2883589
+        mem[ 21 ] 11141159
+        mem[ 22 ] 2883589
+        mem[ 23 ] 11075623
+        mem[ 24 ] 786433
+        mem[ 25 ] 1310722
+        mem[ 26 ] 24576000
+        mem[ 27 ] 8650788
+        mem[ 28 ] 2883589
+        mem[ 29 ] 11468839
+        mem[ 30 ] 24641536
+        mem[ 31 ] 8650787
+        mem[ 32 ] 1835011
+        mem[ 33 ] 24641536
+        mem[ 34 ] 7
+        mem[ 35 ] 1
+        mem[ 36 ] -1
+        mem[ 37 ] 7
+        mem[ 38 ] 3
+        mem[ 39 ] 4
+        mem[ 40 ] 27
+        mem[ 41 ] 27
+        mem[ 42 ] 5
+        mem[ 43 ] 1
+        mem[ 44 ] 19
+        mem[ 45 ] 4
+        mem[ 46 ] 1
+        mem[ 47 ] 19
+        mem[ 48 ] 3
+        mem[ 49 ] 1
+        mem[ 50 ] 19
+        mem[ 51 ] 2
+        mem[ 52 ] 1
+    registers:
+        reg[ 0 ] 0
+        reg[ 1 ] 7
+        reg[ 2 ] 3
+        reg[ 3 ] 35
+        reg[ 4 ] -1
+        reg[ 5 ] 0
+        reg[ 6 ] 7
+        reg[ 7 ] 4
+end state
+machine halted
+total of 978 instructions executed
+final state of machine:
+    
+@@@
+state:
+     pc 7
+    memory:
+        mem[ 0 ] 8454181
+        mem[ 1 ] 8519718
+        mem[ 2 ] 8781858
+        mem[ 3 ] 24576000
+        mem[ 4 ] 8454181
+        mem[ 5 ] 8519718
+        mem[ 6 ] 25165824
+        mem[ 7 ] 16908311
+        mem[ 8 ] 17432598
+        mem[ 9 ] 8650787
+        mem[ 10 ] 15663143
+        mem[ 11 ] 2883589
+        mem[ 12 ] 15269927
+        mem[ 13 ] 2883589
+        mem[ 14 ] 15335463
+        mem[ 15 ] 2883589
+        mem[ 16 ] 8650788
+        mem[ 17 ] 786433
+        mem[ 18 ] 24576000
+        mem[ 19 ] 8650788
+        mem[ 20 ] 2883589
+        mem[ 21 ] 11141159
+        mem[ 22 ] 2883589
+        mem[ 23 ] 11075623
+        mem[ 24 ] 786433
+        mem[ 25 ] 1310722
+        mem[ 26 ] 24576000
+        mem[ 27 ] 8650788
+        mem[ 28 ] 2883589
+        mem[ 29 ] 11468839
+        mem[ 30 ] 24641536
+        mem[ 31 ] 8650787
+        mem[ 32 ] 1835011
+        mem[ 33 ] 24641536
+        mem[ 34 ] 7
+        mem[ 35 ] 1
+        mem[ 36 ] -1
+        mem[ 37 ] 7
+        mem[ 38 ] 3
+        mem[ 39 ] 4
+        mem[ 40 ] 27
+        mem[ 41 ] 27
+        mem[ 42 ] 5
+        mem[ 43 ] 1
+        mem[ 44 ] 19
+        mem[ 45 ] 4
+        mem[ 46 ] 1
+        mem[ 47 ] 19
+        mem[ 48 ] 3
+        mem[ 49 ] 1
+        mem[ 50 ] 19
+        mem[ 51 ] 2
+        mem[ 52 ] 1
+    registers:
+        reg[ 0 ] 0
+        reg[ 1 ] 7
+        reg[ 2 ] 3
+        reg[ 3 ] 35
+        reg[ 4 ] -1
+        reg[ 5 ] 0
+        reg[ 6 ] 7
+        reg[ 7 ] 4
+end state
+\end{lstlisting}
+\subsection{Fibonacci}
+\begin{lstlisting}[style=assembly]
+@@@
+state:
+     pc 3
+    memory:
+        mem[ 0 ] 8454172
+        mem[ 1 ] 8781851
+        mem[ 2 ] 24576000
+        mem[ 3 ] 25165824
+        mem[ 4 ] 17301523
+        mem[ 5 ] 8650781
+        mem[ 6 ] 17563665
+        mem[ 7 ] 15663135
+        mem[ 8 ] 2883589
+        mem[ 9 ] 15269919
+        mem[ 10 ] 2883589
+        mem[ 11 ] 8650782
+        mem[ 12 ] 786433
+        mem[ 13 ] 24576000
+        mem[ 14 ] 8650782
+        mem[ 15 ] 2883589
+        mem[ 16 ] 11075615
+        mem[ 17 ] 2359300
+        mem[ 18 ] 786433
+        mem[ 19 ] 24576000
+        mem[ 20 ] 8650782
+        mem[ 21 ] 2883589
+        mem[ 22 ] 11468831
+        mem[ 23 ] 24641536
+        mem[ 24 ] 65538
+        mem[ 25 ] 1245187
+        mem[ 26 ] 24641536
+        mem[ 27 ] 4
+        mem[ 28 ] 5
+        mem[ 29 ] 1
+        mem[ 30 ] -1
+        mem[ 31 ] 3
+        mem[ 32 ] 20
+        mem[ 33 ] 3
+        mem[ 34 ] 14
+        mem[ 35 ] 2
+        mem[ 36 ] 3
+        mem[ 37 ] 14
+        mem[ 38 ] 2
+    registers:
+        reg[ 0 ] 0
+        reg[ 1 ] 1
+        reg[ 2 ] 1
+        reg[ 3 ] 5
+        reg[ 4 ] -1
+        reg[ 5 ] 0
+        reg[ 6 ] 4
+        reg[ 7 ] 3
+end state
+machine halted
+total of 186 instructions executed
+final state of machine:
+    
+@@@
+state:
+     pc 4
+    memory:
+        mem[ 0 ] 8454172
+        mem[ 1 ] 8781851
+        mem[ 2 ] 24576000
+        mem[ 3 ] 25165824
+        mem[ 4 ] 17301523
+        mem[ 5 ] 8650781
+        mem[ 6 ] 17563665
+        mem[ 7 ] 15663135
+        mem[ 8 ] 2883589
+        mem[ 9 ] 15269919
+        mem[ 10 ] 2883589
+        mem[ 11 ] 8650782
+        mem[ 12 ] 786433
+        mem[ 13 ] 24576000
+        mem[ 14 ] 8650782
+        mem[ 15 ] 2883589
+        mem[ 16 ] 11075615
+        mem[ 17 ] 2359300
+        mem[ 18 ] 786433
+        mem[ 19 ] 24576000
+        mem[ 20 ] 8650782
+        mem[ 21 ] 2883589
+        mem[ 22 ] 11468831
+        mem[ 23 ] 24641536
+        mem[ 24 ] 65538
+        mem[ 25 ] 1245187
+        mem[ 26 ] 24641536
+        mem[ 27 ] 4
+        mem[ 28 ] 5
+        mem[ 29 ] 1
+        mem[ 30 ] -1
+        mem[ 31 ] 3
+        mem[ 32 ] 20
+        mem[ 33 ] 3
+        mem[ 34 ] 14
+        mem[ 35 ] 2
+        mem[ 36 ] 3
+        mem[ 37 ] 14
+        mem[ 38 ] 2
+    registers:
+        reg[ 0 ] 0
+        reg[ 1 ] 1
+        reg[ 2 ] 1
+        reg[ 3 ] 5
+        reg[ 4 ] -1
+        reg[ 5 ] 0
+        reg[ 6 ] 4
+        reg[ 7 ] 3
+end state
+\end{lstlisting}
+
+\newpage
+\section{ตารางการทำงาน}
 \begin{tabular}{ |p{2cm}|p{6cm}|p{3cm}|p{2cm}|  }
 \hline
 วัน/เดือน/ปี & รายละเอียดงาน &ผู้รับผิดชอบ & จำนวนชั่วโมง\\
