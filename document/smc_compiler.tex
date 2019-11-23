@@ -235,7 +235,7 @@ offsetfield     -> factor
 
 \newpage
 \section{Program}
-ในส่วนของ program จะประอบไปด้วย 2 ส่วน คือ label และ instruction โดยทั้งสองส่วนจะเก็บ address ของแต่ละ label และ instruction ไว้
+program จะเป็นข้อมูลที่ผ่าน semantic analyzer ในส่วนของ program จะประกอบไปด้วย 2 ส่วน คือ label และ instruction โดยทั้งสองส่วนจะเก็บ address ของแต่ละ label และ instruction ไว้
 \subsection{Label table}
 \begin{center}
     \begin{tabular}{|C{2cm}|C{3cm}|}
@@ -257,33 +257,57 @@ offsetfield     -> factor
 \subsection{Instruction list (Statements)}
 \begin{center}
     \begin{tabular}{|C{2cm}|C{3cm}|}
-        \hline
-        instruction & address\\
-        \hline
-        lw & 0\\
-        \hline
-        lw & 1\\
-        \hline
-        add & 2\\
-        \hline
-        beq & 3\\
-        \hline
-        beq & 4\\
-        \hline
-        noop & 5\\
-        \hline
-        halt & 6\\
-        \hline
-        .fill & 7\\
-        \hline
-        .fill & 8\\
-        \hline
-        .fill & 9\\
+        \hline address & instruction\\
+        \hline 0 & lw 0 1 five\\
+        \hline 1 & lw 1 2 3\\
+        \hline 2 & add  1 2 1\\
+        \hline 3 & beq 0 1 2\\
+        \hline 4 & beq 0 0 start\\
+        \hline 5 & noop \\
+        \hline 6 & halt \\
+        \hline 7 & .fill 5\\
+        \hline 8 & .fill -1\\
+        \hline 9 & .fill start\\
         \hline
 \end{tabular}
 \end{center}
-   
 
+\newpage
+\section{Binary}
+Interpreter จะได้รับข้อมูลจาก semantic analyzer เพื่อนำมาแปลงเป็น binary โดย field ที่เป็น label โปรแกรมจะแปลงเป็นตัวเลข  
+\begin{center}
+    \begin{tabular}{|C{2cm}|C{3cm}|}
+        \hline address & instruction\\
+        \hline 0 & lw 0 1 7\\
+        \hline 1 & lw 1 2 3 \\
+        \hline 2 & add  1 2 1\\
+        \hline 3 & beq 0 1 2\\
+        \hline 4 & beq 0 0 -3\\
+        \hline 5 & noop \\
+        \hline 6 & halt \\
+        \hline 7 & .fill 5\\
+        \hline 8 & .fill -1\\
+        \hline 9 & .fill 2\\
+        \hline
+\end{tabular}
+\end{center}
+และนำข้อมูล instruction แต่ละอันไปแปลงเป็น binary
+\begin{center}
+    \begin{tabular}{|C{2cm}|C{3cm}|}
+        \hline address & instruction\\
+        \hline 0 & 8454151\\
+        \hline 1 & 9043971 \\
+        \hline 2 & 655361\\
+        \hline 3 & 16842754\\
+        \hline 4 & 16842749\\
+        \hline 5 & 29360128\\
+        \hline 6 & 25165824\\
+        \hline 7 & 5\\
+        \hline 8 & -1\\
+        \hline 9 & 2\\
+        \hline
+\end{tabular}
+\end{center}
 
 \newpage
 \section{Simulator}
