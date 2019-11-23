@@ -360,9 +360,47 @@ stack  .fill 0
 
 \section{Source Code}
 
-\newcommand{\main}{smc/cli/main.py}
-\paragraph{}\main
-\lstinputlisting[language=Python, style=python]{../\main}
+\newcommand{\file}[1]{
+  \begingroup
+
+  \catcode`_=12
+  \paragraph{}\detokenize{#1}
+  \lstinputlisting[language=Python, style=python]{../#1}
+  \endgroup
+}
+
+
+\subsection{Binary}
+\file{smc/binary/__init__.py}
+\file{smc/binary/binary.py}
+\file{smc/binary/instruction.py}
+
+\subsection{Assembler}
+\file{smc/assembler/__init__.py}
+\file{smc/assembler/lexer.py}
+\file{smc/assembler/parser.py}
+\file{smc/assembler/semantic_analyzer.py}
+\file{smc/assembler/interpreter.py}
+\file{smc/assembler/token.py}
+\file{smc/assembler/abstract_syntax_tree.py}
+\file{smc/assembler/program.py}
+
+\subsection{Simulator}
+\file{smc/simulator/__init__.py}
+\file{smc/simulator/simulator.py}
+\file{smc/simulator/memory.py}
+\file{smc/simulator/register.py}
+
+\subsection{Error handling}
+\file{smc/error/__init__.py}
+
+\subsection{Command line}
+\file{smc/cli/__init__.py}
+\file{smc/cli/main.py}
+
+\subsection{Main module}
+\file{smc/__init__.py}
+\file{smc/__main__.py}
 
 \section{ตารางการทำงาน}
 
