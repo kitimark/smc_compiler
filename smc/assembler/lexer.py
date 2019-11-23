@@ -31,7 +31,10 @@ class Lexer(object):
       self.column += 1
 
   def _skip_whitespace(self):
-    while self.current_char is not None and self.current_char in (' ', '\t'):
+    """
+      Ignore whitespace character
+    """
+    while self.current_char is not None and self.current_char in WHITESPACE:
       self._advance()
 
   def _word(self):
@@ -58,6 +61,9 @@ class Lexer(object):
     return token
     
   def _number(self):
+    """
+      Generate number token
+    """
     token = Token(type=None, value=None, line=self.line, column=self.column)
 
     value = ''
@@ -71,6 +77,9 @@ class Lexer(object):
     return token
 
   def _special_chareacter(self):
+    """
+      Generate special chareacter token
+    """
     token = Token(
       type=TokenType.SPC, 
       value=self.current_char, 
@@ -81,6 +90,9 @@ class Lexer(object):
     return token
 
   def _new_line(self):
+    """
+      Generate End of Line token
+    """
     token = Token(type=TokenType.EOL, value=None, line=self.line, column=self.column)
     self._advance()
     return token
@@ -97,7 +109,7 @@ class Lexer(object):
       if self.current_char == '\n':
         return self._new_line()
 
-      if self.current_char in (' ', '\t'):
+      if self.current_char in WHITESPACE:
         self._skip_whitespace()
         continue
 
@@ -108,9 +120,11 @@ class Lexer(object):
         return self._number()
 
       try:
+        # Try to gen token in token type
         token_type = TokenType(self.current_char)
         self._advance()
       except ValueError:
+        # Handling all chareacter
         return self._special_chareacter()
       else: 
         return Token(
@@ -122,4 +136,5 @@ class Lexer(object):
 
     # End of file
     return Token(type=TokenType.EOF, value=None)
-      
+
+WHITESPACE = (' ', '\t')
