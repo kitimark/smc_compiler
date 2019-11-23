@@ -2,6 +2,13 @@ from .register import Register
 from .memory import Memory
 from ..binary import TwosComplement, Instruction
 
+
+"""
+รับbinary รับคำสั่งมาทำในแต่ละคำสั่ง และทำการรันแต่ละคำสั่งว่าต้องทำงานอย่างไรตามที่ได้กำหนดมา 
+และแสดงผลลัพธ์ของmemoryและregister ทุกการทำงาน1คำสั่งจนจบการทำงานครบทุกaddress 
+แล้วแสดงผลการสรุปของการทำงานทั้งหมด
+"""
+
 class Simulator(object):
   def __init__(self, statements):
     self.pc = 0
@@ -94,14 +101,19 @@ class Simulator(object):
      self._end = True
      self._next_inst()
 
-  def _init_memory_log(self):
+
+  """ส่วนแสดงผลลัพธ์ในแต่ละ state"""
+  
+  def _init_memory_log(self): #ฟังก์ชันที่แสดงค่าเริ่มต้นของ Memory
     # TODO: return intialize memory
     list = ''
     for i,val in enumerate(self.memory):
       list += f'memory[{str(i)}]={str(val)}\n'
     return list
 
-  def _simulation_logs(self):
+  def _simulation_logs(self): 
+    """ฟังก์ชันที่แสดงค่าของMemoryและRegisterของทุกการรันทุกคำสั่งจนจบทุกคำสั่ง 
+    โดยการดึงค่าออกมาจาก MemoryและRegister ของแต่ละ state ออกมาแสดงผล"""
     # TODO: return mem and reg
     list = f'\n@@@\nstate:\n\t '
     list += f'pc {self.pc}\n'
@@ -116,6 +128,9 @@ class Simulator(object):
 
     list += f'end state\n'
     return list
+
+  """ส่วนแสดงผลลัพธ์สรุปผลการทำงานของคำสั่งทั้งหมด 
+  และแสดงผลของ final state """
 
   def _simulation_conclusion(self):
     #TODO: return conclusion and final state
@@ -134,6 +149,5 @@ class Simulator(object):
       if self._end: break
 
     logs += self._simulation_conclusion()
-    # self._end = False
     logs += self._simulation_logs()
     return logs

@@ -69,9 +69,9 @@
     \vspace*{\stretch{1.0}}
     \begin{center}
        \Large\textbf{Computer Architecture}\\
-       \textbf{Project 1}\\
+       \textbf{SMC\_Assembler}\\
        \vspace{2cm}
-       \itshapeวสุธันย์ กิติจีราพัฒน์ (600610773) \\ ศศิรัตน์ มณีเจียร (600610778) \\ อานันท์ บุญรอด (600610801) \\ อาภัสรา เรืองเมือง (600610802)
+       \itshapeวสุธันย์ กิติจีราพัฒน์ (600610773) \\ ศศิรัตน์ มณีเจียร (600610778) \\ อานันท์ บุญรอด (600610801) \\ อาภัสรา เรืองเมือง (600610802) \\ เอกวิชญ์ ใจดี (600610804)
 
     \end{center}
     \vspace*{\stretch{2.0}}
@@ -233,6 +233,56 @@ offsetfield     -> factor
 \end{tikzpicture}
 
 
+\newpage
+\section{Program}
+ในส่วนของ program จะประอบไปด้วย 2 ส่วน คือ label และ instruction โดยทั้งสองส่วนจะเก็บ address ของแต่ละ label และ instruction ไว้
+\subsection{Label table}
+\begin{center}
+    \begin{tabular}{|C{2cm}|C{3cm}|}
+        \hline
+        label & address\\
+        \hline
+        start & 2\\
+        \hline
+        done & 6\\
+        \hline
+        five & 7\\
+        \hline
+        neg1 & 8\\
+        \hline
+        stAddr & 9\\
+        \hline
+\end{tabular}
+\end{center}
+\subsection{Instruction list (Statements)}
+\begin{center}
+    \begin{tabular}{|C{2cm}|C{3cm}|}
+        \hline
+        instruction & address\\
+        \hline
+        lw & 0\\
+        \hline
+        lw & 1\\
+        \hline
+        add & 2\\
+        \hline
+        beq & 3\\
+        \hline
+        beq & 4\\
+        \hline
+        noop & 5\\
+        \hline
+        halt & 6\\
+        \hline
+        .fill & 7\\
+        \hline
+        .fill & 8\\
+        \hline
+        .fill & 9\\
+        \hline
+\end{tabular}
+\end{center}
+   
 
 
 \newpage
@@ -249,6 +299,8 @@ offsetfield     -> factor
         lw    0    4    pos1      $4 = 1
         lw    0    5    pos1      $5 = 1
         lw    0    6    pos16     $6 = 16
+        beq   0    2    end       goto end program when $2==0
+        beq   0    3    end       goto end program when $3==0
 loop    beq   5    6    end       goto end program when $5==16
         add   0    0    7         $7 = 0
         nand  4    2    7         $4 nand $2 -> $7
@@ -267,6 +319,42 @@ mplier  .fill 10383
 pos16   .fill 16
 pos1    .fill 1
 \end{lstlisting}
+การทำงานของ Multiplication
+\begin{center}
+    \tikzstyle{block} = [rectangle, draw, 
+        text width=12em, text centered, rounded corners, minimum height=3em]
+    \tikzstyle{dimond} = [diamond, draw, 
+    text width=4.5em, text badly centered, node distance=3cm, inner sep=0pt]
+    \tikzstyle{cloud} = [draw, ellipse, node distance=3cm,
+    minimum height=2em]
+    \tikzstyle{line} = [draw, -latex']
+    
+    \begin{tikzpicture}[node distance = 3cm, auto]
+        % Place nodes
+        \node [cloud] (start) {start};
+        \node [block, below of=start , node distance=2cm] (nand1) {Nand multiplier , 1};
+        \node [block, below of=nand1,node distance=2cm] (nand2) {Nand multiplier , multiplier};
+        \node [dimond, below of=nand2] (check) {check temp multiplier};
+        \node [block, below left of=check , node distance=4cm] (add) {add multiplicand to product and place the result in product register};
+        \node [block, below of=check, node distance=5cm] (shift) {shift the Multiplication register left 1 bit};
+        \node [block, below of=shift, node distance=2.5cm] (shift2) {shift the temp multiplier register left 1 bit};
+        \node [dimond, below of=shift2] (re) {15 repetition?};
+        \node [cloud, below of=re, node distance=2cm] (halt) {halt};
+        
+        % Draw edges
+        \path[line] (start) -- (nand1);
+        \path[line] (nand1) -- (nand2);
+        \path[line] (nand2) -- (check);
+        \path[line] (check) -| node [anchor=east] {temp Mplier=Mplier} (add);
+        \path[line] (check) -- node {temp mplier not equal mplier} (shift);
+        \path[line] (add) |-  (shift);
+        \path[line] (shift) -- (shift2);
+        \path[line] (shift2) -- (re);
+        \path[line] (re) -- (halt);
+    
+    \end{tikzpicture}
+    \end{center}
+
 
 \subsection{Combination}
 \begin{lstlisting}[style=assembly]
@@ -309,9 +397,14 @@ pos1   .fill 1
 neg1   .fill -1
 n      .fill 7
 r      .fill 3
-stack  .fill 0
-    
+stack  .fill 0    
 \end{lstlisting}
+\par ให้ register 1 เก็บค่า n และ register 2 เก็บค่า r  และให้ register 3 เป็น result 
+โดยเมื่อเริ่มการทำงานจะ เช็คว่า r == 0 หรือ r == n หรือป่าว  (if r == 0 || r== n)
+ถ้า r == 0 หรือ r == n  โปรแกรมก็จะสั่งให้ register 3 ได้รับค่า เพิ่ม 1 แล้วกลับไปทำงานใน return addr ที่ register 7 ได้เก็บ return addr ไว้ 
+ถ้าไม่ใช่ ก็จะให้ ทำการsave ค่า return addr , n , r ลงไว้ใน stack หลังจากนั้นกำหนดให้ n -1 แล้วเริ่มการทำงาน combination(n-1,r)
+พอจบการทำงานแบบ combination(n-1,r ) ให้โหลดค่า n ,r   จาก stack กลับมา ที่ register 1 , register 2 ตาม ลำดับ 
+กำหนดให้ n-1 และ r-1 แล้วเริ่มการทำงานแบบ combination(n-1,r-1) โปรแกรมก็จะทำงานจนกว่า สมการr == 0 หรือ r == nเป็นจริงแล้ว return result ออกมาใน register 3
 
 \subsection{Fibonacci}
 \begin{lstlisting}[style=assembly]
@@ -348,6 +441,13 @@ pos1   .fill 1
 neg1   .fill -1
 stack  .fill 0   
 \end{lstlisting}
+\par หลักการทำงานส่วนใหญ่จะ คล้ายกันกับ combination เนื่องจากว่าเป็น recursive function เหมือนกัน 
+ให้ register 1 เก็บค่า n   และให้ register 3 เป็น result 
+โดยเมื่อเริ่มการทำงานจะ เช็คว่า n ==  0 หรือ n == 1  หรือป่าว (if n == 1 || n== 0)
+ถ้า n == 1 หรือ n == 0 โปรแกรมก็จะสั่ง ให้ ทำค่า n ที่เป็น 0 หรือ 1 ไปรวมกันเก็บไว้ใน register 3แล้วกลับไปทำงานใน return addr ที่ register 7 
+ถ้าไม่ใช่ ก็จะให้ ทำการ save ค่า return addr และ ทำการsaveค่า n ลงใน stack หลังจากนั้นกำหนดให้ n -1 แล้วเริ่มการทำงาน fibonacci(n-1)
+พอจบการทำงานแบบ finonacci(n-1 ) ให้ โหลดค่า n จากstack กลับมาที่ register 1 แล้วกำนหดให้ n-2 แล้วเริ่มการทำงานแบบ fibonacci(n-2) 
+แล้ว พอจบการทำงานโปรแกรม จะ return result ที่ register 3 
 
 \newpage
 \vspace*{\fill}
@@ -421,9 +521,17 @@ stack  .fill 0
 \hline
 19/11/2562 &ทำโค้ดส่วนของ Assembler และแก้ไขงาน  & วสุธันย์(600610773)    ศศิรัตน์(600610778) เอกวิชญ์(600610804)  อาภัสรา(600610802) อานันท์(600610801) & 4 ชั่วโมง\\
 \hline
+20/11/2562 - 21/11/2562 &ทำรายงาน & วสุธันย์(600610773)    ศศิรัตน์(600610778) เอกวิชญ์(600610804)  อาภัสรา(600610802) อานันท์(600610801) & 4 ชั่วโมง\\
+\hline
+22/11/2562 &แก้ไขข้อผิดพลาด& วสุธันย์(600610773)    ศศิรัตน์(600610778) เอกวิชญ์(600610804)  อาภัสรา(600610802) อานันท์(600610801) & 3 ชั่วโมง\\
+\hline
 \end{tabular}
 \subsection{หน้าที่การทำงานของสมาชิกในกลุ่ม}
-วสุธันย์ กิติจีราพัฒน์ (600610773) ..... 
+วสุธันย์ กิติจีราพัฒน์ (600610773) ทำโค้ด Assembler , คิดการทำงาน , ทำรายงาน\\
+ศศิรัตน์ มณีเจียร (600610778) ทำ Assembler , คิดการทำงานของโปรแกรมทั้งหมด , ทำรายงาน\\
+อานันท์ บุญรอด (600610801) ทำ Assembly code , ทำรายงาน\\
+อาภัสรา เรืองเมือง (600610802) ทำส่วน simulator , ทำรายงาน\\
+เอกวิชญ์ ใจดี (600610804) ทำส่วน simulator , ทำรายงาน\\
 \section{Reference}
 \begin{enumerate}
 \item\url{https://www.cs.rochester.edu/~nelson/courses/csc_173/grammars/cfg.html}
