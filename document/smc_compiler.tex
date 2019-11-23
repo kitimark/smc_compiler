@@ -233,6 +233,56 @@ offsetfield     -> factor
 \end{tikzpicture}
 
 
+\newpage
+\section{Program}
+ในส่วนของ program จะประอบไปด้วย 2 ส่วน คือ label และ instruction โดยทั้งสองส่วนจะเก็บ address ของแต่ละ label และ instruction ไว้
+\subsection{Label table}
+\begin{center}
+    \begin{tabular}{|C{2cm}|C{3cm}|}
+        \hline
+        label & address\\
+        \hline
+        start & 2\\
+        \hline
+        done & 6\\
+        \hline
+        five & 7\\
+        \hline
+        neg1 & 8\\
+        \hline
+        stAddr & 9\\
+        \hline
+\end{tabular}
+\end{center}
+\subsection{Instruction list (Statements)}
+\begin{center}
+    \begin{tabular}{|C{2cm}|C{3cm}|}
+        \hline
+        instruction & address\\
+        \hline
+        lw & 0\\
+        \hline
+        lw & 1\\
+        \hline
+        add & 2\\
+        \hline
+        beq & 3\\
+        \hline
+        beq & 4\\
+        \hline
+        noop & 5\\
+        \hline
+        halt & 6\\
+        \hline
+        .fill & 7\\
+        \hline
+        .fill & 8\\
+        \hline
+        .fill & 9\\
+        \hline
+\end{tabular}
+\end{center}
+   
 
 
 \newpage
