@@ -3,7 +3,7 @@
 \usepackage[utf8x]{inputenc}
 \usepackage{fonts-tlwg}
 \usepackage{tikz}
-\usetikzlibrary{shapes,arrows,snakes,positioning,trees}
+\usetikzlibrary{shapes,arrows,snakes,positioning,trees,arrows.meta}
 \usepackage{tabularx}
 \usepackage{multirow}
 \usepackage[a4paper]{geometry}
@@ -328,6 +328,7 @@ pos1    .fill 1
     \tikzstyle{cloud} = [draw, ellipse, node distance=3cm,
     minimum height=2em]
     \tikzstyle{line} = [draw, -latex']
+    \tikzstyle{arrow} = [-{Stealth[scale=1.2]},rounded corners,thick]
     
     \begin{tikzpicture}[node distance = 3cm, auto]
         % Place nodes
@@ -342,7 +343,9 @@ pos1    .fill 1
         \node [cloud, below of=re, node distance=2cm] (halt) {halt};
         
         % Draw edges
-        \path[line] (start) -- (nand1);
+        \coordinate[left of=nand1] (c1);  %This is so the path doesn't intersect the diagram
+        \coordinate[left of=re] (d1);
+        \path[line] (start) -- coordinate[midway] (s1) (nand1);
         \path[line] (nand1) -- (nand2);
         \path[line] (nand2) -- (check);
         \path[line] (check) -| node [anchor=east] {temp Mplier=Mplier} (add);
@@ -350,7 +353,8 @@ pos1    .fill 1
         \path[line] (add) |-  (shift);
         \path[line] (shift) -- (shift2);
         \path[line] (shift2) -- (re);
-        \path[line] (re) -- (halt);
+        \path[line] (re)  -| ([xshift=-3.5cm]d1) -- ([xshift=-3.5cm]c1)-- (nand1);
+        \path[line] (re) --  (halt);
     
     \end{tikzpicture}
     \end{center}
