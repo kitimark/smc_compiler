@@ -9,3 +9,5 @@ __pycache__
 *.log
 *.pdf
 *.synctex.gz
+*.dvi
+*.out
