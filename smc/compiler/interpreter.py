@@ -7,6 +7,9 @@ class Interpreter(object):
     self.program = program
 
   def visitor(self, stmt):
+    """
+    check type of instruction 
+    """
     method_name = '_init_' + type(stmt).__name__
     visitor = getattr(self, method_name)
     return visitor(stmt)
@@ -18,6 +21,10 @@ class Interpreter(object):
     return self.program.labels[label]['address']
 
   def _init_RType(self, stmt):
+    """
+    R-type 
+          input command,feild  to run instruction 
+    """
     return Instruction(
       stmt.command,
       stmt.field0,
@@ -26,7 +33,12 @@ class Interpreter(object):
     )
 
   def _init_IType(self, stmt):
+    """
+    I-type 
+        if field2 is label or constant
+    """
     if type(stmt._field2) is Label:
+      """if field2=label : field2 is constant in label address"""
       label = stmt.field2
       address = self._get_addr_with_label(label)
       if stmt._command.type is TokenType.BEQ:
@@ -46,6 +58,9 @@ class Interpreter(object):
     )
 
   def _init_JType(self, stmt):
+    """
+    J-type Input command and field to run instruction 
+    """
     return Instruction(
       stmt.command,
       stmt.field0,
@@ -53,11 +68,15 @@ class Interpreter(object):
     )
 
   def _init_OType(self, stmt):
+    """O-type Input command to run instruction"""
     return Instruction(
       stmt.command
     )
 
   def _init_FillType(self, stmt):
+    """
+    Filltype.
+    """
     if type(stmt._field0) is Label:
       label = stmt.field0
       field0 = self._get_addr_with_label(label)
@@ -77,7 +96,7 @@ class Interpreter(object):
     for statement in self.program.statements:
       if len(machine_lang) != statement.address:
         raise Exception(message="Error address is wrong")
-
+      #convert instruction assembly to binary
       machine_code = self._instruct_stmt(statement).int
       machine_lang.append(machine_code)
 
