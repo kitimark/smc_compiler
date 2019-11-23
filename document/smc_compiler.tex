@@ -109,7 +109,31 @@ O-type & \multicolumn{2}{C{3cm}|}{x} & opcode & \multicolumn{4}{R{3cm}}{x}\\
 
 \newpage
 \section{Simulator}
-%เขียนตรงนี้ได้เลย
+แนวคิดในการทำงานในส่วนของงานทั้งหมด
+\\
+\begin{center}
+    \tikzstyle{block} = [rectangle, draw, 
+        text width=6em, text centered, rounded corners, minimum height=6em]
+    \tikzstyle{line} = [draw, -latex']
+    \tikzstyle{blocksmall} = [rectangle, draw, 
+        text width=3.5em, text centered, rounded corners, minimum height=1.5em]
+    \begin{tikzpicture}[node distance = 3cm, auto]
+        % Place nodes
+        \node[draw=none,fill=none] (source) {Binary};
+        \node [block, below of=source] (init) {Simulator};
+        \node [blocksmall, right of=init,] (register) {Register};
+        \node [blocksmall, below of=register, node distance=0.7cm] (memory) {Memory};
+        \node[draw=none,fill=none,below of=init] (result) {Result};
+        
+        % Draw edges
+        \path [line] (source) -- (init);
+        \path [line] (init) -- (result);
+        \path [line] (init) -- (register);
+        \path [line] (init) -- (memory);        
+        \path [line] (memory) -- (init);   
+        \path [line] (register) -- (init);   
+    \end{tikzpicture}
+    \end{center}
 
 \newpage
 \section{Assembly}
