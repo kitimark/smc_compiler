@@ -347,9 +347,14 @@ pos1   .fill 1
 neg1   .fill -1
 n      .fill 7
 r      .fill 3
-stack  .fill 0
-    
+stack  .fill 0    
 \end{lstlisting}
+\par ให้ register 1 เก็บค่า n และ register 2 เก็บค่า r  และให้ register 3 เป็น result 
+โดยเมื่อเริ่มการทำงานจะ เช็คว่า r == 0 หรือ r == n หรือป่าว  (if r == 0 || r== n)
+ถ้า r == 0 หรือ r == n  โปรแกรมก็จะสั่งให้ register 3 ได้รับค่า เพิ่ม 1 แล้วกลับไปทำงานใน return addr ที่ register 7 ได้เก็บ return addr ไว้ 
+ถ้าไม่ใช่ ก็จะให้ ทำการsave ค่า return addr , n , r ลงไว้ใน stack หลังจากนั้นกำหนดให้ n -1 แล้วเริ่มการทำงาน combination(n-1,r)
+พอจบการทำงานแบบ combination(n-1,r ) ให้โหลดค่า n ,r   จาก stack กลับมา ที่ register 1 , register 2 ตาม ลำดับ 
+กำหนดให้ n-1 และ r-1 แล้วเริ่มการทำงานแบบ combination(n-1,r-1) โปรแกรมก็จะทำงานจนกว่า สมการr == 0 หรือ r == nเป็นจริงแล้ว return result ออกมาใน register 3
 
 \subsection{Fibonacci}
 \begin{lstlisting}[style=assembly]
@@ -386,6 +391,13 @@ pos1   .fill 1
 neg1   .fill -1
 stack  .fill 0   
 \end{lstlisting}
+\par หลักการทำงานส่วนใหญ่จะ คล้ายกันกับ combination เนื่องจากว่าเป็น recursive function เหมือนกัน 
+ให้ register 1 เก็บค่า n   และให้ register 3 เป็น result 
+โดยเมื่อเริ่มการทำงานจะ เช็คว่า n ==  0 หรือ n == 1  หรือป่าว (if n == 1 || n== 0)
+ถ้า n == 1 หรือ n == 0 โปรแกรมก็จะสั่ง ให้ ทำค่า n ที่เป็น 0 หรือ 1 ไปรวมกันเก็บไว้ใน register 3แล้วกลับไปทำงานใน return addr ที่ register 7 
+ถ้าไม่ใช่ ก็จะให้ ทำการ save ค่า return addr และ ทำการsaveค่า n ลงใน stack หลังจากนั้นกำหนดให้ n -1 แล้วเริ่มการทำงาน fibonacci(n-1)
+พอจบการทำงานแบบ finonacci(n-1 ) ให้ โหลดค่า n จากstack กลับมาที่ register 1 แล้วกำนหดให้ n-2 แล้วเริ่มการทำงานแบบ fibonacci(n-2) 
+แล้ว พอจบการทำงานโปรแกรม จะ return result ที่ register 3 
 
 \newpage
 \vspace*{\fill}
