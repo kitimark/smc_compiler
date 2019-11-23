@@ -1,0 +1,415 @@
+\documentclass[14pt]{article}
+\usepackage[english,thai]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{fonts-tlwg}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,snakes,positioning,trees}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage[a4paper]{geometry}
+\usepackage{hyperref}
+
+
+\usepackage{listings}
+
+% context free gramma template
+\lstdefinestyle{context-free-grammar}{
+  basicstyle=\itshape,
+  xleftmargin=2em,
+  basicstyle=\ttfamily,
+  literate={->}{$\rightarrow$}{2}
+           {α}{$\alpha$}{1}
+           {δ}{$\delta$}{1}
+}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+ 
+% assembly template
+\lstdefinestyle{assembly}{
+    xleftmargin=3em,
+    backgroundcolor=\color{backcolour},   
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    % numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+% python template
+\lstdefinestyle{python}{
+    backgroundcolor=\color{backcolour},   commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\begin{document}
+
+\begin{titlepage}
+    \vspace*{\stretch{1.0}}
+    \begin{center}
+       \Large\textbf{Computer Architecture}\\
+       \textbf{Project 1}\\
+       \vspace{2cm}
+       \itshapeวสุธันย์ กิติจีราพัฒน์ (600610773) \\ ศศิรัตน์ มณีเจียร (600610778) \\ อานันท์ บุญรอด (600610801) \\ อาภัสรา เรืองเมือง (600610802)
+
+    \end{center}
+    \vspace*{\stretch{2.0}}
+ \end{titlepage}
+\section{Infrastructure}
+ในการทำงานของโปรแกรมจะแบ่งเป็น 2 ส่วนหลักๆ ก็คือ assembler และ simulator 
+\begin{center}
+    \tikzstyle{block} = [rectangle, draw, 
+        text width=6em, text centered, rounded corners, minimum height=3em]
+    \tikzstyle{line} = [draw, -latex']
+    
+    \begin{tikzpicture}[node distance = 3cm, auto]
+        % Place nodes
+        \node[draw=none,fill=none] (file) {files};
+        \node [block, right of=file] (assembler) {assembler};
+        \node [block, right of=assembler] (simulator) {simulator};
+        \node[draw=none,fill=none,right of=simulator] (result) {result};
+        
+        % Draw edges
+        \path [line] (file) -- (assembler);
+        \path [line] (assembler) --  (simulator);
+        \path [line] (simulator) --  (result);
+    \end{tikzpicture}
+    \end{center}
+\section{Assembler}
+แนวคิดในการทำงานในส่วนของ Compiler
+\begin{center}
+\tikzstyle{block} = [rectangle, draw, 
+    text width=6em, text centered, rounded corners, minimum height=3em]
+\tikzstyle{line} = [draw, -latex']
+
+\begin{tikzpicture}[node distance = 2cm, auto]
+    % Place nodes
+    \node[draw=none,fill=none] (source) {Source code};
+    \node [block, below of=source] (init) {lexer};
+    \node [block, below of=init] (parser) {parser};
+    \node [block, below of=parser] (semantic) {semantic analyze};
+    \node [block, below of=semantic] (interpreter) {interpreter};
+    \node[draw=none,fill=none,below of=interpreter] (bi) {binary};
+    
+    % Draw edges
+    \path [line] (source) -- (init);
+    \path [line] (init) -- node {token} (parser);
+    \path [line] (parser) -- node {parsed tree} (semantic);
+    \path [line] (semantic) -- node {program} (interpreter);
+    \path [line] (interpreter) -- (bi);
+
+\end{tikzpicture}
+\end{center}
+\parเริ่มต้นจากนำไฟล์ source code มา
+lexer คือ ตัวที่ใช้ตัดคำ เพื่อนำ token ไปส่งให้ parser , parser คือ ตัวที่เอาไว้ check ไวย์ยากรณ์ ว่าในหนึ่งบรรทัด มีรูปแบบที่ถูกต้องหรือไม่ ต่อจากนั้น parser จะทำการสร้าง pared tree เพื่อส่งต่อ ไปให้ semantic analyze ซึ่ง semantic analyze ทำหน้าที่ในการเช็คข้อมูลในหนึ่งบรรทัดในเชิงความหมายของ instruction หรือ label เช่น ไม่ควรมี label ซ้ำกัน ต่อจากนั้น semantic analyze จะส่งข้อมูลที่ได้ส่งไปให้ interpreter เพื่อทำการแปลงจาก assembly เป็น binary
+
+
+
+\newpage
+\section{Instruction table}
+
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+
+\begin{tabular}{C{1cm}|C{1cm}|C{1cm}|C{1cm}|C{1cm}|C{1cm}|C{1cm}|C{1cm}|C{1cm}}
+\multicolumn{1}{L{0.7cm}}{} & \multicolumn{1}{l}{31} &\multicolumn{1}{r}{25}& \multicolumn{1}{l}{24 \hfil   22} &\multicolumn{1}{l}{21  \hfil19}& \multicolumn{1}{l}{18 \hfil \hfil 16} &\multicolumn{1}{l}{15}& \multicolumn{1}{r}{3}& \multicolumn{1}{l}{2 \hfil \hfil 0}\\
+\hline
+R-type & \multicolumn{2}{C{3cm}|}{x} & opcode & rs & rt & \multicolumn{2}{C{3cm}|}{x} & rd\\
+\hline
+I-type & \multicolumn{2}{C{3cm}|}{x} & opcode & rs & rt & \multicolumn{2}{R{3cm}}{offsetfield} \\
+\hline
+J-type & \multicolumn{2}{C{3cm}|}{x} & opcode & rs & rt & \multicolumn{2}{C{3cm}}{x} \\
+\hline
+O-type & \multicolumn{2}{C{3cm}|}{x} & opcode & \multicolumn{4}{R{3cm}}{x}\\
+\hline
+
+\end{tabular}
+
+\section{context free grammar}
+\paragraph{  }แนวคิดที่ได้จากการค้นคว้า ก็ได้แนวคิดของการทำ context free grammar โดยแนวคิดนี้จะเริ่มจากจุดใหญ่ๆก่อนแล้วค่อยย่อยมาเป็นจุดเล็กๆ ทำให้การทำงานง่ายขึ้น จาก context free grammar ก็ได้แนวคิดอีกเรื่องหนึี่งที่ต่อยอดมาจาก context free grammar ก็คือ abstact syntex tree คือเรื่องที่นำ context free grammar มาทำให้ดูง่ายขึ้นกว่าเดิม และจากการศึกษา ก็ได้นำมาเป็นแนวคิดในการเขียน code \par
+แนวคิดของ context free grammar คือ เริ่มต้นจาก Assembly หนึ่งไฟล์จะประกอบไปด้วย initial หรือ method โดย initial จะเริ่มเป็น statement\_list แต่ method จะมี label ขึ้นก่อนแล้วตามด้วย statement\_list โดยใน statememt\_list จะมี statememt ซึ่งเก็บ instruction กับ commemt ซึ่งจะมีวิธีการเขียนที่เป็นไปได้ดังด้านล่างนี้ โดย instruction ก็จะแบ่งไปตาม type ต่างๆ มีรูปแบบที่ต่างกันไป 
+\begin{lstlisting}[style=context-free-grammar]
+program         -> initial? method*
+initial         -> statement_list
+method          -> label statement_list
+statement_list  -> (statement)*
+statement       -> intruction comment?(<END OF LINE> | <END OF LINE>)
+                 | EMPTY
+EMPTY           -> <END OF LINE>
+instruction     -> R-TYPE reg reg reg
+                 | I-TYPE reg reg field
+                 | J-TYPE reg reg 
+                 | O-TYPE 
+                 | .fill field
+reg             -> INTEGER
+field           -> offsetfield | label
+label           -> WORD
+comment         -> (WOED | INTEGER)*
+factor          -> (+,-)factor | INTEGER
+offsetfield     -> factor
+\end{lstlisting}
+ซึ่งหลักการของ comtext free grammar จะนำไปแปลงเป็น AST ซึ่งอยู่ในขั้นตอนของ parser ที่จะส่ง parsed tree ไปให้ semantic analyze ไปทำงานต่อไป
+
+\newpage
+\section{Abstract Syntex Tree}
+\parจาก context free grammar จะนำมาแปลงให้เป็น Abstract syntex tree (AST) การทำ AST เพื่อให้การทำงานง่ายขึ้นกว่าเดิม โดยจะแยกว่า อันไหนเป็น initial หรือ method ที่ได้มาจาก parser  โดยมีตัวอย่างดังด้านล่าง \\
+\tikzstyle{level 1}=[level distance=30mm, sibling distance=50mm]
+\tikzstyle{level 2}=[level distance=40mm, sibling distance=27mm]
+\tikzstyle{level 3}=[level distance=20mm, sibling distance=15mm]
+\tikzstyle{level 4}=[level distance=20mm, sibling distance=5mm]
+\begin{tikzpicture}[grow=right,->,>=angle 60]
+%\begin{scope}[yshift=0]
+  \node {paragraph tree}
+    child [sibling distance=160mm]{node {methods}
+    child {node {stAddr}
+        child {node{.fill}
+            child[-]{node{start}}}  
+      }
+      child {node {neg1}
+        child {node{.fill}
+            child[-]{node{-1}}}  
+      }
+      child {node {five}
+        child {node{.fill}
+            child[-]{node{5}}}  
+      }
+      child {node {done}
+        child[-] {node{halt}}  
+      }
+      child {node{start}
+        child{node{noop}}
+        child{node{beq} 
+            child[-] {node{start}}
+            child[-] {node{0}} 
+            child[-] {node{0}}  
+      }
+        child{node{beq} 
+            child[-] {node{2}}
+            child[-] {node{1}} 
+            child[-] {node{0}}  
+      }
+        child{node{add} 
+            child[-] {node{1}}
+            child[-] {node{2}} 
+            child[-] {node{1}}  
+      }
+      }
+    }
+    child {node {initial}
+      child {node{lw}
+        child[- ,sibling distance=7mm] {node{1}}
+        child[- ,sibling distance=7mm] {node{2}} 
+        child[- ,sibling distance=7mm] {node{1}}   
+      }
+      child {node{lw}
+        child[- ,sibling distance=7mm] {node{five}}
+        child[- ,sibling distance=7mm] {node{1}} 
+        child[- ,sibling distance=7mm] {node{0}}   
+      }
+    };
+\end{tikzpicture}
+
+
+
+
+\newpage
+\section{Simulator}
+%เขียนตรงนี้ได้เลย
+  
+
+\newpage
+\section{Assembly}
+\subsection{Multiplication}
+\begin{lstlisting}[style=assembly]
+        lw    0    2    mplier    $2 = 10383
+        lw    0    3    mcand     $3 = 32766
+        lw    0    4    pos1      $4 = 1
+        lw    0    5    pos1      $5 = 1
+        lw    0    6    pos16     $6 = 16
+loop    beq   5    6    end       goto end program when $5==16
+        add   0    0    7         $7 = 0
+        nand  4    2    7         $4 nand $2 -> $7
+        nand  7    7    7         nand for check bit
+        beq   7    0    skip      goto skip program when $7==0
+        add   3    1    1         $1 = $3 + $1
+skip    add   3    3    3         shift the multiplicand register left 1 bit
+        add   0    0    7         $7 = 0
+        lw    0    7    pos1      $7 = 1
+        add   5    7    5         $5 = $5 +1
+        add   4    4    4         shift the multiplier register left 1 bit
+        beq   0    0              loop go back to the begining of the loop
+end     halt                      end of program
+mcand   .fill 32766
+mplier  .fill 10383
+pos16   .fill 16
+pos1    .fill 1
+\end{lstlisting}
+
+\subsection{Combination}
+\begin{lstlisting}[style=assembly]
+       lw    0   1   n      $1 == n 
+       lw    0   2   r      $2 == r
+       lw    0   6   func   prepare to call combi. $2=combi 
+start  jalr  6   7          call combi: $7=return address
+       lw    0   1   n      $1 == n
+       lw    0   2   r      $2 == r
+       halt
+combi  beq   0   2   exit   go to exit when $2 == 0
+       beq   1   2   exit   go to exit when $2 == $1
+       lw    0   4   pos1   $4 == 1
+       sw    5   7   stack  save return address on stack
+       add   5   4   5      increment stack pointer
+       sw    5   1   stack  save $1 on stack
+       add   5   4   5      increment stack pointer
+       sw    5   2   stack  save $2 on stack
+       add   5   4   5      increment stack pointer
+       lw    0   4   neg1   $4 == -1
+       add   1   4   1      $1 = $4+$1
+       jalr  6   7          call combi: $7=return address
+       lw    0   4   neg1   $4 == -1
+       add   5   4   5      decrement stack pointer
+       lw    5   2   stack  recover $2
+       add   5   4   5      decrement stack pointer
+       lw    5   1   stack  recover $1
+       add   1   4   1      $1 = $4+$1
+       add   2   4   2      $2 = $4+$2
+       jalr  6   7          call addr $7
+       lw    0   4   neg1   $4 == -1
+       add   5   4   5      decrement stack pointer
+       lw    5   7   stack  recover return address on stack
+       jalr  7   0          call addr $7
+exit   lw    0   4   pos1   return 1
+       add   3   4   3      result combi
+       jalr  7   0          call addr $7
+func   .fill combi
+pos1   .fill 1
+neg1   .fill -1
+n      .fill 7
+r      .fill 3
+stack  .fill 0
+    
+\end{lstlisting}
+
+\subsection{Fibonacci}
+\begin{lstlisting}[style=assembly]
+       lw    0    1    n        $1 == n     
+       lw    0    6    func     prepare to call fibo : $2=fibo 
+start  jalr  6    7    call     fibo: $7=return address
+       halt
+fibo   beq   1    0    done     go to done when $1 == 0
+       lw    0    4    pos1     $4 == 1
+       beq   1    4    done     go to done when $1 == 1
+       sw    5    7    stack    save return address on stack
+       add   5    4    5        increment stack pointer
+       sw    5    1    stack    save $1 on stack
+       add   5    4    5        increment stack pointer
+       lw    0    4    neg1     $4 == -1
+       add   1    4    1        $1 = $4+$1
+       jalr  6    7             call fibo: $7=return address
+loop1  lw    0    4    neg1     $4 == -1
+       add   5    4    5        decrement stack pointer
+       lw    5    1    stack    recover $1
+       add   4    4    4        $4 == -2
+       add   1    4    1        $1 = $4+$1
+       jalr  6    7             call fibo: $7=return address
+loop2  lw    0    4    neg1     $4 == -1
+       add   5    4    5        decrement stack pointer
+       lw    5    7    stack    recover return address on stack
+       jalr  7    0             call addr $7
+done   add   0    1    2        $1 == $2
+       add   2    3    3        $3 = $3 + $2
+       jalr  7    0             call addr $7
+func   .fill fibo
+n      .fill 5
+pos1   .fill 1
+neg1   .fill -1
+stack  .fill 0   
+\end{lstlisting}
+
+\newpage
+\vspace*{\fill}
+\noindent
+\makebox[\textwidth]{\Huge ภาคผนวก}
+
+\vfill
+
+\newpage
+
+\section{Source Code}
+
+\newcommand{\main}{smc/cli/main.py}
+\paragraph{}\main
+\lstinputlisting[language=Python, style=python]{../\main}
+
+\section{ตารางการทำงาน}
+
+\begin{tabular}{ |p{2cm}|p{6cm}|p{3cm}|p{2cm}|  }
+\hline
+วัน/เดือน/ปี & รายละเอียดงาน &ผู้รับผิดชอบ & จำนวนชั่วโมง\\
+\hline
+7/11/2562 & นัดคุยงาน วางแผน และแบ่งหน้าที่ในการทำงาน  & ทุกคน & 2 ชั่วโมง\\
+\hline
+11/11/2562 & นัดคุยรายละเอียดเกี่ยวกับ instruction  & วสุธันย์(600610773) &3 ชั่วโมง\\ &&ศศิรัตน์(600610778) &\\ &&เอกวิชญ์(600610804) & \\
+          & คุยรายละเอียดเกี่ยวกับการทำ simulator & อาภัสรา(600610802)  &\\ && อานันท์(600610801) & \\
+\hline
+11/11/2562 - 16/11/2562 &ทำงานของเองที่ได้รับมอบหมาย & ทุกคน & วันละประมาณ 4-5 ชั่วโมง\\
+\hline
+18/11/2562 &ทำส่วนของ Assembly ให้เสร็จและนัดหมายคุยเพื่อปรับปรุงแก้ไขงานส่วนที่ทำ & อาภัสสรา(600610802)        อานันท์(600610801) & 3 ชั่วโมง\\
+\hline
+19/11/2562 &ทำโค้ดส่วนของ Assembler & วสุธันย์(600610773)    ศศิรัตน์(600610778) เอกวิชญ์(600610804) & 4 ชั่วโมง\\
+\hline
+19/11/2562 &ทำโค้ดส่วนของ Assembler และแก้ไขงาน  & วสุธันย์(600610773)    ศศิรัตน์(600610778) เอกวิชญ์(600610804)  อาภัสรา(600610802) อานันท์(600610801) & 4 ชั่วโมง\\
+\hline
+\end{tabular}
+\subsection{หน้าที่การทำงานของสมาชิกในกลุ่ม}
+วสุธันย์ กิติจีราพัฒน์ (600610773) ..... 
+\section{Reference}
+\begin{enumerate}
+\item\url{https://www.cs.rochester.edu/~nelson/courses/csc_173/grammars/cfg.html}
+\item\url{https://medium.com/basecs/leveling-up-ones-parsing-game-with-asts-d7a6fc2400ff}
+\item\url{http://www1.cs.columbia.edu/~sedwards/classes/2003/w4115f/ast.9up.pdf}
+\item\url{http://matt.might.net/articles/grammars-bnf-ebnf/}
+\item\url{https://ruslanspivak.com/lsbasi-part1/}
+\item\url{https://ruslanspivak.com/lsbasi-part2/}
+\item\url{https://ruslanspivak.com/lsbasi-part3/}
+\item\url{https://ruslanspivak.com/lsbasi-part4/}
+\item\url{https://ruslanspivak.com/lsbasi-part5/}
+\item\url{https://ruslanspivak.com/lsbasi-part6/}
+\item\url{https://ruslanspivak.com/lsbasi-part7/}
+\item\url{https://ruslanspivak.com/lsbasi-part8/}
+\item\url{https://ruslanspivak.com/lsbasi-part9/}
+\item\url{https://ruslanspivak.com/lsbasi-part10/}
+\item\url{https://ruslanspivak.com/lsbasi-part11/}
+\item\url{https://ruslanspivak.com/lsbasi-part12/}
+\item\url{https://ruslanspivak.com/lsbasi-part13/}
+\item\url{https://ruslanspivak.com/lsbasi-part14/}
+\item\url{https://ruslanspivak.com/lsbasi-part15/}
+\item\url{https://ruslanspivak.com/lsbasi-part16/}
+\item\url{https://ruslanspivak.com/lsbasi-part17/}
+\end{enumerate}
+
+
+\end{document}
