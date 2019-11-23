@@ -131,6 +131,64 @@ offsetfield     -> factor
 \end{lstlisting}
 ซึ่งหลักการของ comtext free grammar จะนำไปแปลงเป็น AST ซึ่งอยู่ในขั้นตอนของ parser ที่จะส่ง parsed tree ไปให้ semantic analyze ไปทำงานต่อไป
 
+\newpage
+\section{Abstract Syntex Tree}
+\parจาก context free grammar จะนำมาแปลงให้เป็น Abstract syntex tree (AST) การทำ AST เพื่อให้การทำงานง่ายขึ้นกว่าเดิม โดยจะแยกว่า อันไหนเป็น initial หรือ method ที่ได้มาจาก parser  โดยมีตัวอย่างดังด้านล่าง \\
+\tikzstyle{level 1}=[level distance=30mm, sibling distance=50mm]
+\tikzstyle{level 2}=[level distance=40mm, sibling distance=27mm]
+\tikzstyle{level 3}=[level distance=20mm, sibling distance=15mm]
+\tikzstyle{level 4}=[level distance=20mm, sibling distance=5mm]
+\begin{tikzpicture}[grow=right,->,>=angle 60]
+%\begin{scope}[yshift=0]
+  \node {paragraph tree}
+    child [sibling distance=160mm]{node {methods}
+    child {node {stAddr}
+        child {node{.fill}
+            child[-]{node{start}}}  
+      }
+      child {node {neg1}
+        child {node{.fill}
+            child[-]{node{-1}}}  
+      }
+      child {node {five}
+        child {node{.fill}
+            child[-]{node{5}}}  
+      }
+      child {node {done}
+        child[-] {node{halt}}  
+      }
+      child {node{start}
+        child{node{noop}}
+        child{node{beq} 
+            child[-] {node{start}}
+            child[-] {node{0}} 
+            child[-] {node{0}}  
+      }
+        child{node{beq} 
+            child[-] {node{2}}
+            child[-] {node{1}} 
+            child[-] {node{0}}  
+      }
+        child{node{add} 
+            child[-] {node{1}}
+            child[-] {node{2}} 
+            child[-] {node{1}}  
+      }
+      }
+    }
+    child {node {initial}
+      child {node{lw}
+        child[- ,sibling distance=7mm] {node{1}}
+        child[- ,sibling distance=7mm] {node{2}} 
+        child[- ,sibling distance=7mm] {node{1}}   
+      }
+      child {node{lw}
+        child[- ,sibling distance=7mm] {node{five}}
+        child[- ,sibling distance=7mm] {node{1}} 
+        child[- ,sibling distance=7mm] {node{0}}   
+      }
+    };
+\end{tikzpicture}
 
 
 
@@ -299,63 +357,6 @@ stack  .fill 0
 \item\url{https://ruslanspivak.com/lsbasi-part16/}
 \item\url{https://ruslanspivak.com/lsbasi-part17/}
 \end{enumerate}
-
-\newpage
-\tikzstyle{level 1}=[level distance=30mm, sibling distance=50mm]
-\tikzstyle{level 2}=[level distance=40mm, sibling distance=27mm]
-\tikzstyle{level 3}=[level distance=20mm, sibling distance=15mm]
-\tikzstyle{level 4}=[level distance=20mm, sibling distance=5mm]
-\begin{tikzpicture}[grow=right,->,>=angle 60]
-%\begin{scope}[yshift=0]
-  \node {paragraph tree}
-    child [sibling distance=160mm]{node {methods}
-    child {node {stAddr}
-        child {node{.fill}
-            child[-]{node{start}}}  
-      }
-      child {node {neg1}
-        child {node{.fill}
-            child[-]{node{-1}}}  
-      }
-      child {node {five}
-        child {node{.fill}
-            child[-]{node{5}}}  
-      }
-      child {node {done}
-        child[-] {node{halt}}  
-      }
-      child {node{start}
-        child{node{noop}}
-        child{node{beq} 
-            child[-] {node{start}}
-            child[-] {node{0}} 
-            child[-] {node{0}}  
-      }
-        child{node{beq} 
-            child[-] {node{2}}
-            child[-] {node{1}} 
-            child[-] {node{0}}  
-      }
-        child{node{add} 
-            child[-] {node{1}}
-            child[-] {node{2}} 
-            child[-] {node{1}}  
-      }
-      }
-    }
-    child {node {initial}
-      child {node{lw}
-        child[- ,sibling distance=7mm] {node{1}}
-        child[- ,sibling distance=7mm] {node{2}} 
-        child[- ,sibling distance=7mm] {node{1}}   
-      }
-      child {node{lw}
-        child[- ,sibling distance=7mm] {node{five}}
-        child[- ,sibling distance=7mm] {node{1}} 
-        child[- ,sibling distance=7mm] {node{0}}   
-      }
-    };
-\end{tikzpicture}
 
 
 \end{document}
