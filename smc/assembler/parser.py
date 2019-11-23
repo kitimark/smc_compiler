@@ -34,7 +34,7 @@ class Parser(object):
     raise ParserError(
       error_code=error_code,
       token=token,
-      message=f'{error_code} -> {token}'
+      message=f'{error_code.value} -> {token}'
     )
 
   def _eat(self, token_type=None):
@@ -226,6 +226,7 @@ class Parser(object):
   def parse(self):
     node = self.program()
     if self.current_token.type is not TokenType.EOF:
+      # Handle error
       self._error(
         error_code=ErrorCode.UNEXPECTED_TOKEN,
         token=self.current_token
