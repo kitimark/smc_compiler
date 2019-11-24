@@ -5,19 +5,22 @@ class LabelTable(object):
   def __init__(self):
     self.labels = {}
 
-  def _error(self, token):
+  def _error(self, token, message):
     raise SemanticError(
       error_code=ErrorCode.DUPLICATE_LABEL,
       token=token,
-      message=f'Label "{token.value}" has already define'
+      message=message
     ) 
 
   def __getitem__(self, key):
-    return self.labels[key]
+    try:
+      return self.labels[key]
+    except Exception:
+      self._error(None, f'Label "{key}" has not define')
 
   def insert(self, token, address):
     if token.value in self.labels.keys():
-      self._error(token)
+      self._error(token, f'Label "{token.value}" has already define')
 
     self.labels[token.value] = {
       'address': address
