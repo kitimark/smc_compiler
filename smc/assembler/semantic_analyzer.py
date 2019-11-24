@@ -15,7 +15,8 @@ class SemanticAnalyzer(object):
     raise Exception(f'No visit_{type(node)} method')
 
   def visit_ParsedTree(self, node):
-    self.visit(node.initial)
+    if node.initial is not None:
+      self.visit(node.initial)
     self._methods(node.methods)
 
   def visit_Initial(self, node):
