@@ -190,7 +190,7 @@ class Parser(object):
 
     # throw exception when statement lists is empty
     if not statements:
-      raise ParserError(error_code=ErrorCode.EMPTY_STATEMENT_LIST)
+      self._error(ErrorCode.UNEXPECTED_COMMAND, self.current_token)
 
     return statements
 
